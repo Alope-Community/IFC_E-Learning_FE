@@ -1,15 +1,35 @@
 "use client";
+import { useLogin } from "@/hooks/authentication";
 import { IconBrandGoogle } from "justd-icons";
-import React, { useEffect, useState } from "react";
+import React, {
+  FormEvent,
+  FormHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 
 const LoginPage = () => {
+  const mutation = useLogin();
   const [clientOnly, setClientOnly] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setClientOnly(true); // Tanda bahwa ini hanya ada di klien
+      setClientOnly(true);
     }
   }, []);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutation.mutate(formData);
+    // const result = await login(formData);
+    // if (result) {
+    // }
+  };
 
   return (
     <div>
@@ -29,7 +49,7 @@ const LoginPage = () => {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </p>
               </div>
-              <form method="POST">
+              <form method="POST" onSubmit={handleSubmit}>
                 <div className="mb-5">
                   <label htmlFor="email">Email</label>
                   <input
@@ -37,6 +57,12 @@ const LoginPage = () => {
                     className="border w-full px-5 py-3 rounded-md"
                     placeholder="Email"
                     id="email"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        email: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="mb-5">
@@ -46,6 +72,12 @@ const LoginPage = () => {
                     className="border w-full px-5 py-3 rounded-md"
                     placeholder="Password"
                     id="password"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div>
