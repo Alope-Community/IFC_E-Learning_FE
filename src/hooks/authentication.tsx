@@ -1,4 +1,4 @@
-import { login } from "@/api/Authentication";
+import { login, register } from "@/api/Authentication";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -13,7 +13,7 @@ const useLogin = () => {
 
       alert("Login Success");
 
-      router.push("/register");
+      router.push("/");
     },
     onError: (error) => {
       alert("Login Error");
@@ -23,4 +23,25 @@ const useLogin = () => {
   });
 };
 
-export { useLogin };
+const useRegister = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["register"] });
+
+      alert("Register Success");
+
+      router.push("/login");
+    },
+    onError: (error) => {
+      alert("Register Error");
+
+      console.error("Error Register item:", error);
+    },
+  });
+};
+
+export { useLogin, useRegister };

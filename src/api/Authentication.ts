@@ -1,18 +1,9 @@
+import {
+  FormDataRegister,
+  LoginResponse,
+  RegisterResponse,
+} from "@/models/Authentication";
 import API from "./API";
-
-interface LoginResponse {
-  code: string;
-  message: string;
-  success: boolean;
-  result: {
-    token: string;
-    user: {
-      id: number;
-      name: string;
-      email: string;
-    };
-  };
-}
 
 export const login = async ({
   email,
@@ -29,14 +20,27 @@ export const login = async ({
 
     const { token } = response.data.result;
 
-    // Simpan token di localStorage
     localStorage.setItem("token", token);
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "Login failed");
+    }
+    throw new Error("An unknown error occurred");
+  }
+};
+
+export const register = async (
+  formData: FormDataRegister
+): Promise<RegisterResponse> => {
+  try {
+    const response = await API.post<RegisterResponse>("/register", formData);
 
     return response.data;
   } catch (error: any) {
     // Validasi error dan pastikan tipe error yang diharapkan
     if (error.response && error.response.data) {
-      console.log(error.response.data);
       throw new Error(error.response.data.message || "Login failed");
     }
     throw new Error("An unknown error occurred");
