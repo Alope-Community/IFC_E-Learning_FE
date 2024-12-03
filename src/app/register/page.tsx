@@ -1,4 +1,5 @@
 "use client";
+import { useAuthRedirect } from "@/hooks/_middlewareAuth";
 import { useRegister } from "@/hooks/authentication";
 import { FormDataRegister } from "@/models/Authentication";
 import { IconBrandGoogle } from "justd-icons";
@@ -6,13 +7,15 @@ import Link from "next/link";
 import React, { FormEvent, useEffect, useState } from "react";
 
 const RegistrationPage = () => {
+  useAuthRedirect();
+
   const mutation = useRegister();
 
   const [clientOnly, setClientOnly] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setClientOnly(true); // Tanda bahwa ini hanya ada di klien
+      setClientOnly(true);
     }
   }, []);
 
@@ -26,9 +29,6 @@ const RegistrationPage = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutation.mutate(formData);
-    // const result = await login(formData);
-    // if (result) {
-    // }
   };
 
   return (

@@ -1,7 +1,11 @@
 "use client";
+import { useAuthRedirect } from "@/hooks/_middlewareAuth";
 import { useLogin } from "@/hooks/authentication";
 import { IconBrandGoogle } from "justd-icons";
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 import React, {
   FormEvent,
   FormHTMLAttributes,
@@ -9,7 +13,14 @@ import React, {
   useState,
 } from "react";
 
+interface DecodedToken {
+  exp: number; // Expiry time in UNIX timestamp
+  [key: string]: any; // Other token properties
+}
+
 const LoginPage = () => {
+  useAuthRedirect();
+
   const mutation = useLogin();
   const [clientOnly, setClientOnly] = useState(false);
 
