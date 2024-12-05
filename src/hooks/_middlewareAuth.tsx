@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   exp: number; // Expiry time in UNIX timestamp
-  [key: string]: any; // Other token properties
+  [key: string]: string | number; // Other token properties
 }
 
 const useAuthRedirect = (redirectTo: string = "/") => {

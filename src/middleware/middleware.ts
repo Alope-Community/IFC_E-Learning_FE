@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
     // Validasi token di sini jika perlu
     // Contoh: jwtDecode(token);
   } catch (error) {
+    console.log(error);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
