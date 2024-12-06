@@ -4,7 +4,6 @@ import { getCourseBySlug } from "@/api/Courses";
 import { Course } from "@/models/Course";
 import formatDate from "@/tools/dateFormatter";
 import { useQuery } from "@tanstack/react-query";
-import { IconCalendarFill, IconPeopleFill } from "justd-icons";
 import {
   IconCalendar,
   IconCalendarFill,
@@ -37,6 +36,9 @@ export default function DetailCoursePage({
         <div>
           <h1 className="text-3xl font-semibold uppercase mb-3">
             {data?.title}
+          </h1>
+        </div>
+      </section>
       <section className="relative bg-[url('https://images.unsplash.com/photo-1524311583145-d5593bd3502a?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white">
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent rounded-md"></div>
         <div className="relative z-10">
@@ -60,7 +62,6 @@ export default function DetailCoursePage({
                 <p className="text-sm text-gray-800 italic">
                   {data?.user.nuptk}
                 </p>
-
               </div>
             </div>
             <div className="flex xl:flex-col md:flex-row flex-col gap-5 justify-between xl:items-start items-center">
