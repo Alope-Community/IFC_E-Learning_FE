@@ -1,4 +1,4 @@
-interface BaseResponseAPI {
+export interface BaseResponseAPI {
   code: string;
   message: string;
   success: boolean;

@@ -1,3 +1,5 @@
+import { BaseResponseAPI } from "./_BaseResponse";
+
 export interface LoginResponse extends BaseResponseAPI {
   result: {
     token: string;
