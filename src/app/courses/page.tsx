@@ -11,7 +11,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 export default function CoursePage() {
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchVal, setSearchVal] = useState("");
 
   const { data: categories, isLoading: loadingGetCategories } = useQuery<
     Category[]
@@ -21,8 +22,9 @@ export default function CoursePage() {
   });
 
   const { data: courses, isLoading: loadingGetCourses } = useQuery({
-    queryKey: ["courses", currentPage],
-    queryFn: () => getCourses({ limit: 3, page: currentPage }),
+    queryKey: ["courses", currentPage, searchVal],
+    queryFn: () =>
+      getCourses({ limit: 3, page: currentPage, search: searchVal }),
   });
 
   const handlePageChange = (page: number) => {
@@ -45,6 +47,7 @@ export default function CoursePage() {
                   type="text"
                   className="w-full py-2 rounded px-3 border bg-gray-50"
                   placeholder="Search..."
+                  onChange={(e) => setSearchVal(e.target.value)}
                 />
                 <button className="bg-indigo-500 hover:bg-indigo-400 absolute right-0 top-0 bottom-0 w-[40px] rounded-r flex items-center justify-center text-white">
                   <IconSearch />

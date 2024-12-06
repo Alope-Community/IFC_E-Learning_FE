@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 type CourseParams = {
   limit?: number;
   page?: number;
+  search?: string;
 };
 
 export const getCourses = async (
