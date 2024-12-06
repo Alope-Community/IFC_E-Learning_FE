@@ -12,7 +12,7 @@ export interface LoginResponse extends BaseResponseAPI {
 }
 
 export interface RegisterResponse extends BaseResponseAPI {
-  errors?: {};
+  errors?: Record<string, string>;
   result: [];
 }
 

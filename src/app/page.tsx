@@ -1,7 +1,6 @@
 "use client";
 import { getCourses } from "@/api/Courses";
-import { useAuth } from "@/hooks/_middlewareAuth";
-import { useLogout } from "@/hooks/authentication";
+// import { useAuth } from "@/hooks/_middlewareAuth";
 import MasterLayout from "@/layouts/master";
 import { Course } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +8,6 @@ import {
   IconBookOpenFill,
   IconChartPresentation2Fill,
   IconPlayFill,
-  IconStarFill,
 } from "justd-icons";
 
 export default function ProtectedPage() {
