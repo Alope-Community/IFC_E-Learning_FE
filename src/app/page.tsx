@@ -19,12 +19,10 @@ export default function ProtectedPage() {
   //   return <div>Loading...</div>;
   // }
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["courses"],
     queryFn: () => getCourses({ limit: 4 }),
   });
-
-  console.log(data);
 
   return (
     <>
@@ -113,33 +111,37 @@ export default function ProtectedPage() {
               soluta. Veritatis, suscipit laudantium?
             </p>
           </div>
-          {data?.data.map((course: Course) => (
-            <div key={course.id}>
-              <div className="bg-white rounded-lg shadow overflow-hidden">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                  alt="Course"
-                  className="w-full"
-                />
-                <div className="p-5">
-                  <a href="#" className="block">
-                    <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                      {course.title}
-                    </h4>
-                  </a>
-                  <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                    {course.description}
-                  </p>
-                  <a
-                    href=""
-                    className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                  >
-                    Lihat Kelas
-                  </a>
+          {isLoading ? (
+            <p>Loading ...</p>
+          ) : (
+            data?.data.map((course: Course) => (
+              <div key={course.id}>
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                    alt="Course"
+                    className="w-full"
+                  />
+                  <div className="p-5">
+                    <a href="#" className="block">
+                      <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                        {course.title}
+                      </h4>
+                    </a>
+                    <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                      {course.description}
+                    </p>
+                    <a
+                      href={`/courses/${course.slug}`}
+                      className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                    >
+                      Lihat Kelas
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </section>
         {/*  */}
         <section className="grid xl:grid-cols-2 md:grid-cols-3 gap-10 bg-gray-100 md:px-0 px-5">
