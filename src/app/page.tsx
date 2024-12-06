@@ -1,22 +1,16 @@
 "use client";
 import { getCourses } from "@/api/Courses";
-// import { useAuth } from "@/hooks/_middlewareAuth";
 import MasterLayout from "@/layouts/master";
 import { Course } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
   IconChartPresentation2Fill,
+  IconLoader,
   IconPlayFill,
 } from "justd-icons";
 
 export default function ProtectedPage() {
-  // const { isAuthenticated } = useAuth();
-
-  // if (!isAuthenticated) {
-  //   return <div>Loading...</div>;
-  // }
-
   const { data, isLoading } = useQuery({
     queryKey: ["courses"],
     queryFn: () => getCourses({ limit: 4 }),
@@ -110,7 +104,13 @@ export default function ProtectedPage() {
             </p>
           </div>
           {isLoading ? (
-            <p>Loading ...</p>
+            <div className="bg-gray-200 col-span-4 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+              <IconLoader className="size-7" />
+              <p className="font-medium text-xl mt-1">Loading ...</p>
+              <small className="text-sm text-gray-800 mt-3">
+                Harap Tunggu Sebentar
+              </small>
+            </div>
           ) : (
             data?.data.map((course: Course) => (
               <div key={course.id}>

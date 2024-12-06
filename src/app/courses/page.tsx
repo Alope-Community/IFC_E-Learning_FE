@@ -4,9 +4,8 @@ import { getCourses } from "@/api/Courses";
 import PaginationComponent from "@/components/Pagination";
 import MasterLayout from "@/layouts/master";
 import { Category } from "@/models/Category";
-import { Course, CourseResponse } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
-import { IconSearch } from "justd-icons";
+import { IconLoader, IconSearch } from "justd-icons";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -79,53 +78,65 @@ export default function CoursePage() {
           </div>
         </div>
         <div className="col-span-3 grid grid-cols-3 gap-5">
-          <div className="col-span-3 bg-white shadow-sm py-5 px-4 rounded flex items-center justify-between">
-            <div>
-              <p>
-                Menemukan{" "}
-                <span className="font-medium text-indigo-500">
-                  {courses?.total}
-                </span>{" "}
-                Pelajaran
-              </p>
-            </div>
-            <div>
-              <div className="flex gap-3 items-center">
-                <label htmlFor="">Sort By :</label>
-                <select className="bg-gray-100 px-3 py-2 rounded" name="" id="">
-                  <option value="">(Default)</option>
-                </select>
-              </div>
-            </div>
-          </div>
           {loadingGetCourses ? (
-            <p>Loading...</p>
+            <div className="bg-gray-200 col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+              <IconLoader className="size-7" />
+              <p className="font-medium text-xl mt-1">Loading ...</p>
+              <small className="text-sm text-gray-800 mt-3">
+                Harap Tunggu Sebentar
+              </small>
+            </div>
           ) : (
-            courses?.data.map((course) => (
-              <div>
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                    alt="Course"
-                    className="w-full"
-                  />
-                  <div className="p-5">
-                    <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                      {course.title}
-                    </h4>
-                    <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                      {course.description}
-                    </p>
-                    <Link
-                      href={`/courses/${course.slug}`}
-                      className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+            <>
+              <div className="col-span-3 bg-white shadow-sm py-5 px-4 rounded flex items-center justify-between">
+                <div>
+                  <p>
+                    Menemukan{" "}
+                    <span className="font-medium text-indigo-500">
+                      {courses?.total}
+                    </span>{" "}
+                    Pelajaran
+                  </p>
+                </div>
+                <div>
+                  <div className="flex gap-3 items-center">
+                    <label htmlFor="">Sort By :</label>
+                    <select
+                      className="bg-gray-100 px-3 py-2 rounded"
+                      name=""
+                      id=""
                     >
-                      Lihat Kelas
-                    </Link>
+                      <option value="">(Default)</option>
+                    </select>
                   </div>
                 </div>
               </div>
-            ))
+              {courses?.data.map((course) => (
+                <div key={course.id}>
+                  <div className="bg-white rounded-lg shadow overflow-hidden">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                      alt="Course"
+                      className="w-full"
+                    />
+                    <div className="p-5">
+                      <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                        {course.title}
+                      </h4>
+                      <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                        {course.description}
+                      </p>
+                      <Link
+                        href={`/courses/${course.slug}`}
+                        className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                      >
+                        Lihat Kelas
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
           )}
           <div className="col-span-3 flex justify-center mt-10">
             <PaginationComponent
