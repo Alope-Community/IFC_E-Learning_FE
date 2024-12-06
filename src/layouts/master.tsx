@@ -1,3 +1,6 @@
+import FooterComponent from "@/components/Footer";
+import NavbarComponent from "@/components/Navbar";
+
 export default function MasterLayout({
   children,
 }: {
@@ -5,13 +8,9 @@ export default function MasterLayout({
 }) {
   return (
     <div className="bg-blue-100">
-      <header className="p-4 bg-blue-600">
-        <h1>Ini Navbar</h1>
-      </header>
+      <NavbarComponent />
       <main>{children}</main>
-      <footer className="p-4 bg-blue-600">
-        <p>Section Footer</p>
-      </footer>
+      <FooterComponent />
     </div>
   );
 }

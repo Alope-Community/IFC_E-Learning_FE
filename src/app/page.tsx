@@ -5,7 +5,6 @@ import MasterLayout from "@/layouts/master";
 import { IconChartPresentation2Fill, IconPlayFill } from "justd-icons";
 
 export default function ProtectedPage() {
-  const { logout } = useLogout();
   // const { isAuthenticated } = useAuth();
 
   // if (!isAuthenticated) {
@@ -15,7 +14,7 @@ export default function ProtectedPage() {
   return (
     <>
       <MasterLayout>
-        <header className="grid xl:grid-cols-2 gap-10 xl:px-20 md:px-10 px-5 items-center mt-10">
+        <header className="grid xl:grid-cols-2 gap-10 xl:px-20 md:px-10 px-5 items-center mt-24">
           <div className="xl:order-1 order-2">
             <h2 className="md:text-3xl text-xl font-semibold md:leading-10">
               Belajar Tanpa Batas, Dimanapun dan Kapanpun. Langkah Kecil
