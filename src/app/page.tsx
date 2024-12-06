@@ -2,7 +2,12 @@
 import { useAuth } from "@/hooks/_middlewareAuth";
 import { useLogout } from "@/hooks/authentication";
 import MasterLayout from "@/layouts/master";
-import { IconChartPresentation2Fill, IconPlayFill } from "justd-icons";
+import {
+  IconBookOpenFill,
+  IconChartPresentation2Fill,
+  IconPlayFill,
+  IconStarFill,
+} from "justd-icons";
 
 export default function ProtectedPage() {
   // const { isAuthenticated } = useAuth();
@@ -14,7 +19,7 @@ export default function ProtectedPage() {
   return (
     <>
       <MasterLayout>
-        <header className="grid xl:grid-cols-2 gap-10 xl:px-20 md:px-10 px-5 items-center mt-24">
+        <header className="grid xl:grid-cols-2 gap-10 xl:px-20 md:px-10 px-5 items-center mt-24 mb-20">
           <div className="xl:order-1 order-2">
             <h2 className="md:text-3xl text-xl font-semibold md:leading-10">
               Belajar Tanpa Batas, Dimanapun dan Kapanpun. Langkah Kecil
@@ -83,6 +88,130 @@ export default function ProtectedPage() {
           </div>
         </header>
         {/*  */}
+        <section className="grid xl:grid-cols-4 md:grid-cols-2 gap-5 xl:px-20 md:px-10 px-5 my-24">
+          <div className="xl:col-span-4 md:col-span-2">
+            <div className="flex items-center gap-3">
+              <span className="bg-indigo-500 size-10 flex items-center justify-center rounded-full text-white">
+                <IconBookOpenFill />
+              </span>
+              <h3 className="text-3xl font-medium">Pelajaran</h3>
+            </div>
+            <p className="mt-3 text-gray-700 text-sm md:w-1/2 mb-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
+              optio sit, itaque ipsa quaerat quasi quibusdam officia. Architecto
+              cupiditate nam provident quis corrupti dolorem unde sapiente
+              soluta. Veritatis, suscipit laudantium?
+            </p>
+          </div>
+          <div>
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                alt="Course"
+                className="w-full"
+              />
+              <div className="p-5">
+                <a href="#" className="block">
+                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                    Membangun website interaktif dengan JS
+                  </h4>
+                </a>
+                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi voluptate culpa necessitatibus explicabo fugit
+                  mollitia!
+                </p>
+                <a
+                  href=""
+                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                >
+                  Lihat Kelas
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                alt="Course"
+                className="w-full"
+              />
+              <div className="p-5">
+                <a href="#" className="block">
+                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                    Membangun website interaktif dengan JS
+                  </h4>
+                </a>
+                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi voluptate culpa necessitatibus explicabo fugit
+                  mollitia!
+                </p>
+                <a
+                  href=""
+                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                >
+                  Lihat Kelas
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                alt="Course"
+                className="w-full"
+              />
+              <div className="p-5">
+                <a href="#" className="block">
+                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                    Membangun website interaktif dengan JS
+                  </h4>
+                </a>
+                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi voluptate culpa necessitatibus explicabo fugit
+                  mollitia!
+                </p>
+                <a
+                  href=""
+                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                >
+                  Lihat Kelas
+                </a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                alt="Course"
+                className="w-full"
+              />
+              <div className="p-5">
+                <a href="#" className="block">
+                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                    Membangun website interaktif dengan JS
+                  </h4>
+                </a>
+                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi voluptate culpa necessitatibus explicabo fugit
+                  mollitia!
+                </p>
+                <a
+                  href=""
+                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                >
+                  Lihat Kelas
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
         {/*  */}
         <section className="grid xl:grid-cols-2 md:grid-cols-3 gap-10 bg-gray-100 md:px-0 px-5">
           <div className="relative md:block hidden">
