@@ -1,12 +1,18 @@
 "use client";
 import { getCategories } from "@/api/Categories";
+import { getCourses } from "@/api/Courses";
+import PaginationComponent from "@/components/Pagination";
 import MasterLayout from "@/layouts/master";
 import { Category } from "@/models/Category";
+import { Course, CourseResponse } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
 import { IconSearch } from "justd-icons";
-import React from "react";
+import Link from "next/link";
+import React, { useState } from "react";
 
 export default function CoursePage() {
+  const [currentPage, setCurrentPage] = React.useState(1);
+
   const { data: categories, isLoading: loadingGetCategories } = useQuery<
     Category[]
   >({
@@ -14,7 +20,14 @@ export default function CoursePage() {
     queryFn: () => getCategories(),
   });
 
-  console.log(categories);
+  const { data: courses, isLoading: loadingGetCourses } = useQuery({
+    queryKey: ["courses", currentPage],
+    queryFn: () => getCourses({ limit: 3, page: currentPage }),
+  });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <MasterLayout>
@@ -67,7 +80,9 @@ export default function CoursePage() {
             <div>
               <p>
                 Menemukan{" "}
-                <span className="font-medium text-indigo-500">300</span>{" "}
+                <span className="font-medium text-indigo-500">
+                  {courses?.total}
+                </span>{" "}
                 Pelajaran
               </p>
             </div>
@@ -80,117 +95,41 @@ export default function CoursePage() {
               </div>
             </div>
           </div>
-          <div>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                alt="Course"
-                className="w-full"
-              />
-              <div className="p-5">
-                <a href="#" className="block">
-                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                    Hello
-                  </h4>
-                </a>
-                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, eius eaque beatae ipsum fuga natus perferendis non
-                  facere, ad officiis voluptas unde? Cum labore tenetur laborum.
-                  Dolores iure nam unde?
-                </p>
-                <a
-                  href={`/courses/`}
-                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                >
-                  Lihat Kelas
-                </a>
+          {loadingGetCourses ? (
+            <p>Loading...</p>
+          ) : (
+            courses?.data.map((course) => (
+              <div>
+                <div className="bg-white rounded-lg shadow overflow-hidden">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+                    alt="Course"
+                    className="w-full"
+                  />
+                  <div className="p-5">
+                    <h4 className="font-medium text-xl text-ellipsis max-w-full">
+                      {course.title}
+                    </h4>
+                    <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
+                      {course.description}
+                    </p>
+                    <Link
+                      href={`/courses/${course.slug}`}
+                      className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
+                    >
+                      Lihat Kelas
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                alt="Course"
-                className="w-full"
-              />
-              <div className="p-5">
-                <a href="#" className="block">
-                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                    Hello
-                  </h4>
-                </a>
-                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, eius eaque beatae ipsum fuga natus perferendis non
-                  facere, ad officiis voluptas unde? Cum labore tenetur laborum.
-                  Dolores iure nam unde?
-                </p>
-                <a
-                  href={`/courses/`}
-                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                >
-                  Lihat Kelas
-                </a>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                alt="Course"
-                className="w-full"
-              />
-              <div className="p-5">
-                <a href="#" className="block">
-                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                    Hello
-                  </h4>
-                </a>
-                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, eius eaque beatae ipsum fuga natus perferendis non
-                  facere, ad officiis voluptas unde? Cum labore tenetur laborum.
-                  Dolores iure nam unde?
-                </p>
-                <a
-                  href={`/courses/`}
-                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                >
-                  Lihat Kelas
-                </a>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                alt="Course"
-                className="w-full"
-              />
-              <div className="p-5">
-                <a href="#" className="block">
-                  <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                    Hello
-                  </h4>
-                </a>
-                <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, eius eaque beatae ipsum fuga natus perferendis non
-                  facere, ad officiis voluptas unde? Cum labore tenetur laborum.
-                  Dolores iure nam unde?
-                </p>
-                <a
-                  href={`/courses/`}
-                  className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                >
-                  Lihat Kelas
-                </a>
-              </div>
-            </div>
+            ))
+          )}
+          <div className="col-span-3 flex justify-center mt-10">
+            <PaginationComponent
+              currentPage={currentPage}
+              totalPages={courses?.last_page || 0}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </section>
