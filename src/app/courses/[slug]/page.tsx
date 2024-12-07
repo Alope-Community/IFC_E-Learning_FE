@@ -1,12 +1,14 @@
 "use client";
 
 import { getCourseBySlug } from "@/api/Courses";
+import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
 import { Course } from "@/models/Course";
 import formatDate from "@/tools/dateFormatter";
+import { getUserId } from "@/utils/getUserId";
 import { useQuery } from "@tanstack/react-query";
 import { IconCalendarFill, IconPeopleFill } from "justd-icons";
-import React from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 interface DetailCourseParam {
   slug: string;
@@ -20,11 +22,35 @@ export default function DetailCoursePage({
   const params = React.use(paramsPromise);
   const { slug } = params;
 
-  const { data, isLoading } = useQuery<Course>({
-    queryKey: ["courses", slug],
-    queryFn: () => getCourseBySlug(slug),
+  const [userId, setUserId] = useState<number | null>(0);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["courses", slug, userId],
+    queryFn: () => getCourseBySlug(slug, userId || 0),
     enabled: !!slug,
   });
+
+  const mutationJoin = useJoinCourse();
+  const mutationLeave = useLeaveCourse();
+
+  const handleSubmitJoinCourse = async () => {
+    mutationJoin.mutate({
+      course_id: data?.data?.id || 0,
+      user_id: userId || 0,
+    });
+  };
+
+  const handleSubmitLeaveCourse = async () => {
+    mutationLeave.mutate({
+      course_id: data?.data?.id || 0,
+      user_id: userId || 0,
+    });
+  };
+
+  useEffect(() => {
+    const id = getUserId();
+    setUserId(id ? parseInt(id) : 0);
+  }, []);
 
   return (
     <MasterLayout>
@@ -35,9 +61,11 @@ export default function DetailCoursePage({
           <section className="bg-indigo-500 h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white">
             <div>
               <h1 className="text-3xl font-semibold uppercase mb-3">
-                {data?.title}
+                {data?.data?.title}
               </h1>
-              <p className="text-xl text-gray-100">{data?.category.title}</p>
+              <p className="text-xl text-gray-100">
+                {data?.data?.category.title}
+              </p>
             </div>
           </section>
           <section className="grid xl:grid-cols-4 mt-10 gap-5">
@@ -46,9 +74,11 @@ export default function DetailCoursePage({
                 <div className="flex gap-2 items-center mb-5">
                   <span className="w-[55px] h-[55px] rounded-full bg-indigo-500"></span>
                   <div>
-                    <p className="text-xl font-medium">{data?.user.name}</p>
+                    <p className="text-xl font-medium">
+                      {data?.data?.user.name}
+                    </p>
                     <p className="text-sm text-gray-800 italic">
-                      {data?.user.nuptk}
+                      {data?.data?.user.nuptk}
                     </p>
                   </div>
                 </div>
@@ -61,7 +91,8 @@ export default function DetailCoursePage({
                       </span>
                       <span className="text-base text-gray-900 not-italic">
                         {formatDate(
-                          data?.created_at || "2024-12-05T06:48:34.000000Z"
+                          data?.data?.created_at ||
+                            "2024-12-05T06:48:34.000000Z"
                         )}
                       </span>
                     </p>
@@ -76,19 +107,28 @@ export default function DetailCoursePage({
                     </p>
                   </div>
                   <div className="w-full">
-                    <button className="bg-indigo-500 hover:bg-indigo-400 w-full rounded text-white mt-5 py-3 px-8">
-                      Gabung Kelas
-                    </button>
-                    {/* <button className="bg-red-500 hover:bg-red-400 w-full rounded text-white mt-5 py-3">
-                  Tinggalkan Kelas
-                </button> */}
+                    {data.haveJoined ? (
+                      <button
+                        onClick={handleSubmitLeaveCourse}
+                        className="bg-red-500 hover:bg-red-400 w-full rounded text-white mt-5 py-3"
+                      >
+                        Tinggalkan Kelas
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleSubmitJoinCourse}
+                        className="bg-indigo-500 hover:bg-indigo-400 w-full rounded text-white mt-5 py-3 px-8"
+                      >
+                        Gabung Kelas
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
             <div
               className="xl:col-span-3 bg-white p-8 rounded shadow"
-              dangerouslySetInnerHTML={{ __html: data?.body || "" }}
+              dangerouslySetInnerHTML={{ __html: data?.data?.body || "" }}
             ></div>
           </section>
         </div>

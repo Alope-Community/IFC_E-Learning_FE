@@ -23,7 +23,7 @@ export default function CoursePage() {
   const { data: courses, isLoading: loadingGetCourses } = useQuery({
     queryKey: ["courses", currentPage, searchVal],
     queryFn: () =>
-      getCourses({ limit: 3, page: currentPage, search: searchVal }),
+      getCourses({ limit: 10, page: currentPage, search: searchVal }),
   });
 
   const handlePageChange = (page: number) => {
