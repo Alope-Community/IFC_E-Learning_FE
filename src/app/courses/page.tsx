@@ -36,7 +36,7 @@ export default function CoursePage() {
         <h2 className="text-4xl font-medium">E-COURSE</h2>
         <p className="text-gray-100 mt-3">Learning Platform For You</p>
       </div>
-      <section className="grid grid-cols-4 xl:px-20 md:px-10 px-5 mt-10 gap-10">
+      <section className="grid xl:grid-cols-4 xl:px-20 md:px-10 px-5 mt-10 gap-10">
         <div className="relative">
           <div className="bg-white rounded shadow-sm p-5 sticky top-24">
             <div>
@@ -55,8 +55,8 @@ export default function CoursePage() {
             </div>
             <div className="mt-6">
               <p>Category</p>
-              <div className="border p-3 rounded mt-2">
-                <ul>
+              <div className="border p-3 rounded mt-2 md:max-h-[500px] max-h-[300px] overflow-y-auto">
+                <ul className="grid xl:grid-cols-1 md:grid-cols-3 sm:grid-cols-2">
                   {loadingGetCategories ? (
                     <p>Loading...</p>
                   ) : (
@@ -77,9 +77,38 @@ export default function CoursePage() {
             </div>
           </div>
         </div>
-        <div className="col-span-3 grid grid-cols-3 gap-5">
+        <div className="xl:col-span-3 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+          {!loadingGetCourses && (
+            <div className="md:col-span-3 sm:col-span-2 bg-white shadow-sm py-5 px-4 rounded flex md:flex-row flex-col gap-5 items-center justify-between">
+              <div>
+                <p className="md:text-md text-sm">
+                  Menemukan{" "}
+                  <span className="font-medium text-indigo-500">
+                    {courses?.total}
+                  </span>{" "}
+                  Pelajaran
+                </p>
+              </div>
+              <div>
+                <div className="flex gap-3 items-center">
+                  <label htmlFor="categories" className="md:text-md text-sm">
+                    Sort By :
+                  </label>
+                  <select
+                    className="bg-gray-100 px-3 py-2 rounded"
+                    name=""
+                    id="categories"
+                  >
+                    <option value="" className="md:text-base text-sm">
+                      (Default)
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
           {loadingGetCourses ? (
-            <div className="bg-gray-200 col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+            <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
               <IconLoader className="size-7" />
               <p className="font-medium text-xl mt-1">Loading ...</p>
               <small className="text-sm text-gray-800 mt-3">
@@ -88,29 +117,6 @@ export default function CoursePage() {
             </div>
           ) : (
             <>
-              <div className="col-span-3 bg-white shadow-sm py-5 px-4 rounded flex items-center justify-between">
-                <div>
-                  <p>
-                    Menemukan{" "}
-                    <span className="font-medium text-indigo-500">
-                      {courses?.total}
-                    </span>{" "}
-                    Pelajaran
-                  </p>
-                </div>
-                <div>
-                  <div className="flex gap-3 items-center">
-                    <label htmlFor="">Sort By :</label>
-                    <select
-                      className="bg-gray-100 px-3 py-2 rounded"
-                      name=""
-                      id=""
-                    >
-                      <option value="">(Default)</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               {courses?.data.map((course) => (
                 <div key={course.id}>
                   <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -138,7 +144,7 @@ export default function CoursePage() {
               ))}
             </>
           )}
-          <div className="col-span-3 flex justify-center mt-10">
+          <div className="xl:col-span-3 flex justify-center mt-10">
             <PaginationComponent
               currentPage={currentPage}
               totalPages={courses?.last_page || 0}

@@ -9,6 +9,7 @@ import {
   IconLoader,
   IconPlayFill,
 } from "justd-icons";
+import Link from "next/link";
 
 export default function ProtectedPage() {
   const { data, isLoading } = useQuery({
@@ -129,12 +130,12 @@ export default function ProtectedPage() {
                     <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
                       {course.description}
                     </p>
-                    <a
+                    <Link
                       href={`/courses/${course.slug}`}
                       className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
                     >
                       Lihat Kelas
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

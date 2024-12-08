@@ -60,10 +60,10 @@ export default function DetailCoursePage({
         <div className="xl:px-20 md:px-10 px-5 mt-28">
           <section className="bg-indigo-500 h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white">
             <div>
-              <h1 className="text-3xl font-semibold uppercase mb-3">
+              <h1 className="md:text-3xl text-2xl font-semibold uppercase mb-3">
                 {data?.data?.title}
               </h1>
-              <p className="text-xl text-gray-100">
+              <p className="md:text-xl text-sm text-gray-100">
                 {data?.data?.category.title}
               </p>
             </div>
