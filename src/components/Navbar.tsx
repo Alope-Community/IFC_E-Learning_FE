@@ -1,5 +1,7 @@
 import { useLogout } from "@/hooks/authentication";
 import { IconHamburger, IconLogout, IconX } from "justd-icons"; // Tambahkan IconClose
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 
 export default function NavbarComponent() {
@@ -9,6 +11,8 @@ export default function NavbarComponent() {
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev); // Toggle state
   };
+
+  const pathname = usePathname();
 
   return (
     <>
@@ -21,28 +25,34 @@ export default function NavbarComponent() {
         <div className="flex-1 justify-center md:flex hidden">
           <ul className="flex gap-7">
             <li>
-              <a
-                href=""
-                className="after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2 after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+              <Link
+                href="/"
+                className={`after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2 ${
+                  pathname == "/" &&
+                  "after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+                }`}
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href=""
-                className="after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2"
+              <Link
+                href="/courses"
+                className={`after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2 ${
+                  pathname.startsWith("/courses") &&
+                  "after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+                }`}
               >
                 Course
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href=""
                 className="after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2"
               >
                 Teacher
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -72,28 +82,37 @@ export default function NavbarComponent() {
       >
         <ul className="text-center">
           <li className="mb-5">
-            <a
-              href=""
-              className="text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2 after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+            <Link
+              href="/"
+              className={`text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2  ${
+                pathname == "/" &&
+                "after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+              }`}
             >
               Home
-            </a>
+            </Link>
           </li>
           <li className="mb-5">
-            <a
-              href=""
-              className="text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2"
+            <Link
+              href="/courses"
+              className={`text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2  ${
+                pathname.startsWith("/courses") &&
+                "after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+              }`}
             >
               Course
-            </a>
+            </Link>
           </li>
           <li className="mb-5">
-            <a
-              href=""
-              className="text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2"
+            <Link
+              href="/teachers"
+              className={`text-xl after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2  ${
+                pathname.startsWith("/teacher") &&
+                "after:w-full after:left-0 after:right-0 after:transition-all after:duration-500"
+              }`}
             >
               Teacher
-            </a>
+            </Link>
           </li>
           <li className="mt-10">
             <button

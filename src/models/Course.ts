@@ -1,7 +1,10 @@
 import { BaseResponseAPI, BaseResponsePaginationAPI } from "./_BaseResponse";
 
 export interface CourseBySlugResponse extends BaseResponseAPI {
-  result: Course;
+  result: {
+    data: Course;
+    haveJoined: boolean;
+  };
 }
 
 export type CourseResponse = BaseResponsePaginationAPI<Course[]>;
