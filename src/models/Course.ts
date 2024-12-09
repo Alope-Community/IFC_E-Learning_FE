@@ -1,8 +1,10 @@
-import { BaseResponseAPI } from "./_BaseResponse";
+import { BaseResponseAPI, BaseResponsePaginationAPI } from "./_BaseResponse";
 
 export interface CourseBySlugResponse extends BaseResponseAPI {
   result: Course;
 }
+
+export type CourseResponse = BaseResponsePaginationAPI<Course[]>;
 
 export interface Course {
   id: number;
