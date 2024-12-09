@@ -1,5 +1,6 @@
 "use client";
 import { getCourses } from "@/api/Courses";
+import CourseCard from "@/components/CourseCard";
 import MasterLayout from "@/layouts/master";
 import { Course } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
@@ -9,13 +10,14 @@ import {
   IconLoader,
   IconPlayFill,
 } from "justd-icons";
-import Link from "next/link";
 
 export default function ProtectedPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["courses"],
     queryFn: () => getCourses({ limit: 4 }),
   });
+
+  console.log(data);
 
   return (
     <>
@@ -115,29 +117,13 @@ export default function ProtectedPage() {
           ) : (
             data?.data.map((course: Course) => (
               <div key={course.id}>
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                    alt="Course"
-                    className="w-full"
-                  />
-                  <div className="p-5">
-                    <a href="#" className="block">
-                      <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                        {course.title}
-                      </h4>
-                    </a>
-                    <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                      {course.description}
-                    </p>
-                    <Link
-                      href={`/courses/${course.slug}`}
-                      className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                    >
-                      Lihat Kelas
-                    </Link>
-                  </div>
-                </div>
+                <CourseCard
+                  title={course.title}
+                  slug={course.slug}
+                  description={course.description}
+                  teacher={course.user.name}
+                  category={course.category.title}
+                />
               </div>
             ))
           )}

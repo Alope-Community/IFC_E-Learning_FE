@@ -1,9 +1,11 @@
 "use client";
 import { getCategories } from "@/api/Categories";
 import { getCourses } from "@/api/Courses";
+import CourseCard from "@/components/CourseCard";
 import PaginationComponent from "@/components/Pagination";
 import MasterLayout from "@/layouts/master";
 import { Category } from "@/models/Category";
+import limitStr from "@/tools/limitStr";
 import { useQuery } from "@tanstack/react-query";
 import { IconLoader, IconSearch } from "justd-icons";
 import Link from "next/link";
@@ -119,27 +121,13 @@ export default function CoursePage() {
             <>
               {courses?.data.map((course) => (
                 <div key={course.id}>
-                  <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
-                      alt="Course"
-                      className="w-full"
-                    />
-                    <div className="p-5">
-                      <h4 className="font-medium text-xl text-ellipsis max-w-full">
-                        {course.title}
-                      </h4>
-                      <p className="text-gray-600 transition-all duration-300 mt-3 text-sm">
-                        {course.description}
-                      </p>
-                      <Link
-                        href={`/courses/${course.slug}`}
-                        className="py-2 bg-indigo-500 hover:bg-indigo-400 w-full mt-5 flex justify-center text-white rounded-md"
-                      >
-                        Lihat Kelas
-                      </Link>
-                    </div>
-                  </div>
+                  <CourseCard
+                    title={limitStr(course.title, 35)}
+                    slug={course.slug}
+                    description={limitStr(course.description, 100)}
+                    teacher={course.user.name}
+                    category={course.category.title}
+                  />
                 </div>
               ))}
             </>
