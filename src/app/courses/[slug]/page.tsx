@@ -8,7 +8,12 @@ import { Course } from "@/models/Course";
 import formatDate from "@/tools/dateFormatter";
 import { getUserId } from "@/utils/getUserId";
 import { useQuery } from "@tanstack/react-query";
-import { IconCalendarFill, IconPeopleFill } from "justd-icons";
+import {
+  IconCalendar,
+  IconCalendarFill,
+  IconPeopleFill,
+  IconPerson,
+} from "justd-icons";
 import React, { FormEvent, useEffect, useState } from "react";
 
 interface DetailCourseParam {
