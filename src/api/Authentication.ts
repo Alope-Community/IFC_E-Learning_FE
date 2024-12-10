@@ -5,6 +5,7 @@ import {
 } from "@/models/Authentication";
 import API from "./API";
 import { AxiosError } from "axios";
+import { IRegisterForm } from "@/utils/zod";
 
 export const login = async (params: {
   email: string;
@@ -27,7 +28,7 @@ export const login = async (params: {
 };
 
 export const register = async (
-  formData: FormDataRegister
+  formData: FormDataRegister | IRegisterForm
 ): Promise<RegisterResponse> => {
   try {
     const response = await API.post<RegisterResponse>("/register", formData);

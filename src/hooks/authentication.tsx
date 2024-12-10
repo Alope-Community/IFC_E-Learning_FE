@@ -1,6 +1,7 @@
 import { login, register } from "@/api/Authentication";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const useLogin = () => {
   const queryClient = useQueryClient();
@@ -11,12 +12,12 @@ const useLogin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["login"] });
 
-      alert("Login Success");
+      toast.success('Login Success!', { position: 'top-right' })
 
       router.push("/");
     },
     onError: (error) => {
-      alert("Login Error");
+      toast.error(error.message)
 
       console.error("Error Login item:", error);
     },
@@ -32,12 +33,12 @@ const useRegister = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["register"] });
 
-      alert("Register Success");
+      toast.success("Register Success");
 
       router.push("/login");
     },
     onError: (error) => {
-      alert("Register Error");
+      toast.error(error.message);
 
       console.error("Error Register item:", error);
     },
