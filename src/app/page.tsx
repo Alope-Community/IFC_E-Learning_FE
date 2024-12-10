@@ -1,23 +1,34 @@
 "use client";
+import { getCategories } from "@/api/Categories";
 import { getCourses } from "@/api/Courses";
 import CourseCard from "@/components/CourseCard";
 import MasterLayout from "@/layouts/master";
+import { Category } from "@/models/Category";
 import { Course } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
   IconChartPresentation2Fill,
+  IconInboxEmptyFill,
   IconLoader,
   IconPlayFill,
 } from "justd-icons";
+import { useState } from "react";
 
 export default function ProtectedPage() {
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const { data, isLoading } = useQuery({
-    queryKey: ["courses"],
-    queryFn: () => getCourses({ limit: 4 }),
+    queryKey: ["courses", selectedCategory],
+    queryFn: () => getCourses({ limit: 4, category: selectedCategory }),
   });
 
-  console.log(data);
+  const { data: categories, isLoading: loadingGetCategories } = useQuery<
+    Category[]
+  >({
+    queryKey: ["categories"],
+    queryFn: () => getCategories({ limit: 4 }),
+  });
 
   return (
     <>
@@ -106,6 +117,35 @@ export default function ProtectedPage() {
               soluta. Veritatis, suscipit laudantium?
             </p>
           </div>
+          <div className="xl:col-span-4 md:col-span-2 flex items-center gap-2">
+            <button
+              className={`${
+                selectedCategory == ""
+                  ? "bg-indigo-500 text-white px-5 py-2 rounded"
+                  : "bg-gray-200"
+              } md:px-5 py-2 px-3 rounded md:text-base text-xs`}
+              onClick={() => setSelectedCategory("")}
+            >
+              All
+            </button>
+            {loadingGetCategories ? (
+              <p>Loading...</p>
+            ) : (
+              categories?.map((category) => (
+                <button
+                  key={category.id}
+                  className={`${
+                    selectedCategory == category.slug
+                      ? "bg-indigo-500 text-white px-5 py-2 rounded"
+                      : "bg-gray-200"
+                  } md:px-5 py-2 px-3 rounded md:text-base text-xs`}
+                  onClick={() => setSelectedCategory(category.slug)}
+                >
+                  {category.title}
+                </button>
+              ))
+            )}
+          </div>
           {isLoading ? (
             <div className="bg-gray-200 col-span-4 px-5 py-10 rounded-md flex flex-col justify-center items-center">
               <IconLoader className="size-7" />
@@ -114,7 +154,7 @@ export default function ProtectedPage() {
                 Harap Tunggu Sebentar
               </small>
             </div>
-          ) : (
+          ) : data?.data.length ? (
             data?.data.map((course: Course) => (
               <div key={course.id}>
                 <CourseCard
@@ -126,6 +166,14 @@ export default function ProtectedPage() {
                 />
               </div>
             ))
+          ) : (
+            <div className="bg-gray-200 col-span-4 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+              <IconInboxEmptyFill className="size-7" />
+              <p className="font-medium text-xl mt-1">Data Kosong</p>
+              <small className="text-sm text-gray-800 mt-3">
+                Kelas dengan Kategori {selectedCategory} kosong
+              </small>
+            </div>
           )}
         </section>
         {/*  */}

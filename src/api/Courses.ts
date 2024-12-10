@@ -6,6 +6,7 @@ type CourseParams = {
   limit?: number;
   page?: number;
   search?: string;
+  category?: string;
 };
 
 export const getCourses = async (

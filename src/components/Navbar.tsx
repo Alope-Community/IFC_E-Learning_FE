@@ -1,18 +1,34 @@
 import { useLogout } from "@/hooks/authentication";
-import { IconHamburger, IconLogout, IconX } from "justd-icons"; // Tambahkan IconClose
+import { getUserData } from "@/utils/getUserData";
+import { IconHamburger, IconLogout, IconX } from "justd-icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function NavbarComponent() {
   const { logout } = useLogout();
-  const [menuOpen, setMenuOpen] = useState(false); // State untuk melacak menu
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen((prev) => !prev); // Toggle state
+    setMenuOpen((prev) => !prev);
   };
 
   const pathname = usePathname();
+
+  const [userData, setUserData] = useState({
+    id: 0,
+    name: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    const tokenData = getUserData();
+    setUserData({
+      id: tokenData?.id ? parseInt(tokenData?.id) : 0,
+      name: tokenData?.name || "",
+      email: tokenData?.email || "",
+    });
+  }, []);
 
   return (
     <>
@@ -56,7 +72,7 @@ export default function NavbarComponent() {
             </li>
           </ul>
         </div>
-        <div className="flex-1 md:flex hidden justify-end">
+        <div className="flex-1 md:flex hidden justify-end gap-10">
           <button
             className="flex gap-2 px-3 py-2 rounded text-sm text-red-500 items-center"
             onClick={logout}
@@ -64,6 +80,11 @@ export default function NavbarComponent() {
             <IconLogout className="text-red-500 size-5" />
             Logout
           </button>
+          {/*  */}
+          <Link href={"/dashboard"} className="flex items-center gap-2">
+            <span className="block size-[35px] bg-indigo-500 rounded-full"></span>
+            <p className="text-sm font-medium">{userData.name}</p>
+          </Link>
         </div>
         <div className="flex-1 md:hidden flex justify-end items-center">
           <button onClick={toggleMenu}>
