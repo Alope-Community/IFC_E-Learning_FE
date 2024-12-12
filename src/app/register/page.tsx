@@ -141,7 +141,7 @@ const RegistrationPage = () => {
                       errors.confirmPassword &&
                       "border-red-500 focus:ring-red-500 focus:border-red-500"
                     }`}
-                    placeholder="Ulang Password"
+                    placeholder="Konfirmasi Password"
                     id="re_password"
                     {...register("confirmPassword")}
                   />
@@ -156,7 +156,7 @@ const RegistrationPage = () => {
                     type="submit"
                     className="bg-indigo-500 hover:bg-indigo-400 w-full py-3 text-white rounded-md"
                   >
-                    Submit
+                    Daftar
                   </button>
                   <p className="text-sm text-center mt-5">
                     Sudah punya akun?{" "}
@@ -166,17 +166,9 @@ const RegistrationPage = () => {
                   </p>
                 </div>
               </form>
-              <hr className="my-5" />
-              <button
-                type="submit"
-                className="bg-red-500 hover:bg-red-400 w-full py-3 text-white rounded-md flex justify-center items-center gap-1"
-              >
-                <IconBrandGoogle />
-                Sign in with Google
-              </button>
             </div>
           </div>
-          <div className="bg-indigo-500 xl:flex hidden flex-col items-center justify-center">
+          <div className="bg-[url(/assets/auth.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
             <h2 className="text-3xl text-white font-bold">REGISTRASI</h2>
             <p className="text-gray-200">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.

@@ -62,14 +62,14 @@ export default function NavbarComponent() {
                 Course
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href=""
                 className="after:content-[''] after:bottom-0 after:h-[5px] after:bg-indigo-500 after:absolute after:rounded-full relative pb-2 hover:after:w-[5px] active:after:w-[15px] after:transition-all after:duration-500 after:left-1/2 after:-translate-x-1/2"
               >
                 Teacher
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="flex-1 md:flex hidden justify-end gap-10">

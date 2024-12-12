@@ -26,7 +26,7 @@ export default function ProtectedPage() {
   const { data: categories, isLoading: loadingGetCategories } = useQuery<
     Category[]
   >({
-    queryKey: ["categories"],
+    queryKey: ["categories in home"],
     queryFn: () => getCategories({ limit: 4 }),
   });
 
@@ -80,21 +80,21 @@ export default function ProtectedPage() {
 
             <div className="row-span-2">
               <img
-                src="./../assets/2.png"
+                src="/assets/headers/1.jpg"
                 alt=""
                 className="h-full object-cover rounded"
               />
             </div>
             <div className="2xl:block hidden">
               <img
-                src="https://img.freepik.com/free-photo/smiling-woman-jacket-holding-books-while-looking-camera_171337-3239.jpg?t=st=1733426507~exp=1733430107~hmac=f0ddb49faf057aa55aefa75b207d1c14939485d4ba8b80295ea0f47843e9be48&w=1060"
+                src="/assets/headers/2.jpg"
                 alt=""
                 className="h-full object-cover rounded"
               />
             </div>
             <div className="2xl:block hidden">
               <img
-                src="https://img.freepik.com/free-photo/education-students-happy-asian-woman-holding-notebooks-laughing-smiling-camera-enjoys-goi_1258-167792.jpg?t=st=1733426648~exp=1733430248~hmac=5053cf49e43aec0fedbedbffd06ff1d49cfd52a2e3f27231f198d5bc144701d1&w=1060"
+                src="/assets/headers/3.jpg"
                 alt=""
                 className="h-full object-cover rounded"
               />
@@ -158,6 +158,7 @@ export default function ProtectedPage() {
             data?.data.map((course: Course) => (
               <div key={course.id}>
                 <CourseCard
+                  id={course.id}
                   title={course.title}
                   slug={course.slug}
                   description={course.description}

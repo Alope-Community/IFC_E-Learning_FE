@@ -68,7 +68,10 @@ export default function DetailCoursePage({
         <p className="mt-28">Loading ...</p>
       ) : (
         <div className="xl:px-20 md:px-10 px-5 mt-28">
-          <section className="bg-indigo-500 h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white">
+          <section
+            className="bg-indigo-500 bg-[url('/assets/courses/cover2.jpg')] bg-cover h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white overflow-hidden z-10 relative after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r from-indigo-500 to-indigo-500/30 after:-z-10"
+            style={{ backgroundPositionY: -50 }}
+          >
             <div>
               <h1 className="md:text-3xl text-2xl font-semibold uppercase mb-3">
                 {data?.data?.title}

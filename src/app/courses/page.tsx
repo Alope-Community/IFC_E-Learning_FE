@@ -33,9 +33,9 @@ export default function CoursePage() {
 
   return (
     <MasterLayout>
-      <div className="relative bg-[url('/assets/courses/1.jpg')] h-[300px] flex flex-col items-center justify-center mt-16 text-white">
+      <div className="relative bg-[url('/assets/courses/cover1.jpg')] h-[300px] bg-cover bg-center flex flex-col items-center justify-center mt-16 text-white">
         {/* Overlay hitam */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-black opacity-70"></div>
 
         {/* Konten utama */}
         <div className="relative z-10">
@@ -128,6 +128,7 @@ export default function CoursePage() {
               {courses?.data.map((course) => (
                 <div key={course.id}>
                   <CourseCard
+                    id={course.id}
                     title={limitStr(course.title, 35)}
                     slug={course.slug}
                     description={limitStr(course.description, 100)}
