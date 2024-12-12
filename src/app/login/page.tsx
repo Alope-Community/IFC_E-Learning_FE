@@ -5,12 +5,18 @@ import { IconBrandGoogle } from "justd-icons";
 import Link from "next/link";
 
 import React, { FormEvent, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ILoginForm, loginValidator } from "@/utils/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const LoginPage = () => {
   useAuthRedirect();
 
   const mutation = useLogin();
   const [clientOnly, setClientOnly] = useState(false);
+  const { register, handleSubmit: onSubmit, formState: { errors } } = useForm<ILoginForm>({
+    resolver: zodResolver(loginValidator)
+  })
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -18,18 +24,19 @@ const LoginPage = () => {
     }
   }, []);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate(formData);
+  const handleSubmit = onSubmit(async (data, event) => {
+    event?.preventDefault();
+    mutation.mutate(data);
     // const result = await login(formData);
     // if (result) {
     // }
-  };
+  })
+
 
   return (
     <div>
@@ -51,34 +58,32 @@ const LoginPage = () => {
               </div>
               <form method="POST" onSubmit={handleSubmit}>
                 <div className="mb-5">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email" className={`block mb-2 font-medium text-gray-700 ${errors.password && 'text-red-500'}`}>
+                    Email
+                  </label>
                   <input
                     type="email"
-                    className="border w-full px-5 py-3 rounded-md"
-                    placeholder="Email"
                     id="email"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        email: e.target.value,
-                      })
-                    }
+                    placeholder="Email"
+                    className={`w-full px-5 py-3 rounded-md border ${errors.email && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  )}
                 </div>
                 <div className="mb-5">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password" className={errors.password && 'text-red-500'}>Password</label>
                   <input
                     type="password"
-                    className="border w-full px-5 py-3 rounded-md"
+                    className={`w-full px-5 py-3 rounded-md border ${errors.password && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
                     placeholder="Password"
                     id="password"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        password: e.target.value,
-                      })
-                    }
+                    {...register("password")}
                   />
+                  {errors.password && (
+                    <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+                  )}
                 </div>
                 <div>
                   <button
