@@ -4,19 +4,16 @@ import { getCourseBySlug } from "@/api/Courses";
 import Modal from "@/components/Modal";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
-import { Course } from "@/models/Course";
 import { Submission } from "@/models/Submission";
 import formatDate from "@/tools/dateFormatter";
 import { getUserId } from "@/utils/getUserId";
 import { useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
-  IconCalendar,
   IconCalendarFill,
   IconPeopleFill,
-  IconPerson,
 } from "justd-icons";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface DetailCourseParam {
   slug: string;
@@ -162,7 +159,11 @@ export default function DetailCoursePage({
                 <hr className="my-10" />
                 <div>
                   {data.data.submission.map((row: Submission) => (
-                    <div className="mb-10 scroll-mt-20" id={`ID${row.id}`}>
+                    <div
+                      key={row.id}
+                      className="mb-10 scroll-mt-20"
+                      id={`ID${row.id}`}
+                    >
                       <h5 className="font-medium text-xl mb-2 flex items-center gap-3">
                         <IconBookOpenFill />
                         {row.title}

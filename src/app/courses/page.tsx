@@ -8,7 +8,6 @@ import { Category } from "@/models/Category";
 import limitStr from "@/tools/limitStr";
 import { useQuery } from "@tanstack/react-query";
 import { IconLoader, IconSearch } from "justd-icons";
-import Link from "next/link";
 import React, { useState } from "react";
 
 export default function CoursePage() {

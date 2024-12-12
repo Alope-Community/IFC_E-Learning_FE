@@ -1,29 +1,25 @@
 "use client";
-import { getCategories } from "@/api/Categories";
-import { getCourses } from "@/api/Courses";
 import getDashboard from "@/api/Dashboard";
 import CourseCard from "@/components/CourseCard";
-import PaginationComponent from "@/components/Pagination";
 import MasterLayout from "@/layouts/master";
-import { Category } from "@/models/Category";
 import limitStr from "@/tools/limitStr";
 import { useQuery } from "@tanstack/react-query";
 import { IconLoader, IconSearch } from "justd-icons";
-import Link from "next/link";
-import React, { useState } from "react";
+// import Link from "next/link";
+// import React, { useState } from "react";
 
 export default function DashboardPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchVal, setSearchVal] = useState("");
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [searchVal, setSearchVal] = useState("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: () => getDashboard({ user_id: 5 }),
   });
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page: number) => {
+  //   setCurrentPage(page);
+  // };
 
   return (
     <MasterLayout>
@@ -41,7 +37,7 @@ export default function DashboardPage() {
                   type="text"
                   className="w-full py-2 rounded px-3 border bg-gray-50"
                   placeholder="Search..."
-                  onChange={(e) => setSearchVal(e.target.value)}
+                  // onChange={(e) => setSearchVal(e.target.value)}
                 />
                 <button className="bg-indigo-500 hover:bg-indigo-400 absolute right-0 top-0 bottom-0 w-[40px] rounded-r flex items-center justify-center text-white">
                   <IconSearch />
