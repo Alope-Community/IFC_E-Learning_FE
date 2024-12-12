@@ -1,6 +1,7 @@
 import { joinCourse, leaveCourse } from "@/api/Courses";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const useJoinCourse = () => {
   const queryClient = useQueryClient();
@@ -11,12 +12,12 @@ const useJoinCourse = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
 
-      alert("Join Success");
+      toast.success("Join Success");
 
       //   router.push("/");
     },
     onError: (error) => {
-      alert("Join Error");
+      toast.error(error.message);
 
       console.error("Error Login item:", error);
     },
@@ -32,12 +33,12 @@ const useLeaveCourse = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["courses"] });
 
-      alert("Leave Success");
+      toast.success("Leave Success");
 
       //   router.push("/");
     },
     onError: (error) => {
-      alert("Leave Error");
+      toast.error("Leave Error");
 
       console.error("Error Login item:", error);
     },

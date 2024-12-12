@@ -1,13 +1,19 @@
 "use client";
 
 import { getCourseBySlug } from "@/api/Courses";
+import Modal from "@/components/Modal";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
 import { Course } from "@/models/Course";
 import formatDate from "@/tools/dateFormatter";
 import { getUserId } from "@/utils/getUserId";
 import { useQuery } from "@tanstack/react-query";
-import { IconCalendarFill, IconPeopleFill } from "justd-icons";
+import {
+  IconCalendar,
+  IconCalendarFill,
+  IconPeopleFill,
+  IconPerson,
+} from "justd-icons";
 import React, { FormEvent, useEffect, useState } from "react";
 
 interface DetailCourseParam {
@@ -23,6 +29,7 @@ export default function DetailCoursePage({
   const { slug } = params;
 
   const [userId, setUserId] = useState<number | null>(0);
+  const [openModal, setOpenModal] = useState(false)
 
   const { data, isLoading } = useQuery({
     queryKey: ["courses", slug, userId],
@@ -34,6 +41,8 @@ export default function DetailCoursePage({
   const mutationLeave = useLeaveCourse();
 
   const handleSubmitJoinCourse = async () => {
+    setOpenModal(!openModal)
+
     mutationJoin.mutate({
       course_id: data?.data?.id || 0,
       user_id: userId || 0,
@@ -41,6 +50,8 @@ export default function DetailCoursePage({
   };
 
   const handleSubmitLeaveCourse = async () => {
+    setOpenModal(!openModal)
+
     mutationLeave.mutate({
       course_id: data?.data?.id || 0,
       user_id: userId || 0,
@@ -109,14 +120,14 @@ export default function DetailCoursePage({
                   <div className="w-full">
                     {data.haveJoined ? (
                       <button
-                        onClick={handleSubmitLeaveCourse}
+                        onClick={() => setOpenModal(!openModal)}
                         className="bg-red-500 hover:bg-red-400 w-full rounded text-white mt-5 py-3"
                       >
                         Tinggalkan Kelas
                       </button>
                     ) : (
                       <button
-                        onClick={handleSubmitJoinCourse}
+                        onClick={() => setOpenModal(!openModal)}
                         className="bg-indigo-500 hover:bg-indigo-400 w-full rounded text-white mt-5 py-3 px-8"
                       >
                         Gabung Kelas
@@ -133,6 +144,15 @@ export default function DetailCoursePage({
           </section>
         </div>
       )}
+
+      <Modal
+        isOpen={openModal}
+        message={data?.haveJoined ? 'Apakah anda yakin ingin keluar kelas?' : 'Apakah anda yakin ingin gabung kelas ini?'}
+        onConfirm={data?.haveJoined ? handleSubmitLeaveCourse : handleSubmitJoinCourse}
+        onClose={() => setOpenModal(!openModal)}
+        confirmBtnClassname={data?.haveJoined ? 'hover:bg-red-800 bg-red-500 text-white px-4 py-2 rounded' : 'hover:bg-indigo-800 bg-indigo-500 text-white px-4 py-2 rounded'}
+      />
+
     </MasterLayout>
   );
 }

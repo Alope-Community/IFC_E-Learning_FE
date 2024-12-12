@@ -2,16 +2,21 @@
 import { useAuthRedirect } from "@/hooks/_middlewareAuth";
 import { useRegister } from "@/hooks/authentication";
 import { FormDataRegister } from "@/models/Authentication";
+import { IRegisterForm, registerValidator } from "@/utils/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { IconBrandGoogle } from "justd-icons";
 import Link from "next/link";
 import React, { FormEvent, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const RegistrationPage = () => {
   useAuthRedirect();
 
   const mutation = useRegister();
-
   const [clientOnly, setClientOnly] = useState(false);
+  const { register, handleSubmit: onSubmit, formState: { errors } } = useForm<IRegisterForm>({
+    resolver: zodResolver(registerValidator)
+  })
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -19,17 +24,18 @@ const RegistrationPage = () => {
     }
   }, []);
 
-  const [formData, setFormData] = useState<FormDataRegister>({
-    name: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
+  // const [formData, setFormData] = useState<FormDataRegister>({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  //   password_confirmation: "",
+  // });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-  };
+  const handleSubmit = onSubmit(async (data, event) => {
+    event?.preventDefault();
+    mutation.mutate(data);
+  })
+
 
   return (
     <div>
@@ -51,64 +57,56 @@ const RegistrationPage = () => {
                 onSubmit={handleSubmit}
               >
                 <div>
-                  <label htmlFor="name">Nama</label>
+                  <label htmlFor="name" className={`${errors.name && 'text-red-500'}`}>Nama</label>
                   <input
                     type="text"
-                    className="border w-full px-5 py-3 rounded-md"
+                    className={`border w-full px-5 py-3 rounded-md ${errors.name && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
                     placeholder="Nama"
                     id="name"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        name: e.target.value,
-                      })
-                    }
+                    {...register('name')}
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email" className={`${errors.email && 'text-red-500'}`}>Email</label>
                   <input
                     type="email"
-                    className="border w-full px-5 py-3 rounded-md"
+                    className={`border w-full px-5 py-3 rounded-md ${errors.email && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
                     placeholder="Email"
                     id="email"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        email: e.target.value,
-                      })
-                    }
+                    {...register('email')}
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password" className={`${errors.password && 'text-red-500'}`}>Password</label>
                   <input
                     type="password"
-                    className="border w-full px-5 py-3 rounded-md"
+                    className={`border w-full px-5 py-3 rounded-md ${errors.password && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
                     placeholder="Password"
                     id="password"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        password: e.target.value,
-                      })
-                    }
+                    {...register('password')}
                   />
+                  {errors.password && (
+                    <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="re_password">Ulang Password</label>
+                  <label htmlFor="re_password" className={`${errors.confirmPassword && 'text-red-500'}`}>Konfirmasi Password</label>
                   <input
                     type="password"
-                    className="border w-full px-5 py-3 rounded-md"
+                    className={`border w-full px-5 py-3 rounded-md ${errors.confirmPassword && 'border-red-500 focus:ring-red-500 focus:border-red-500'}`}
                     placeholder="Ulang Password"
                     id="re_password"
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        password_confirmation: e.target.value,
-                      })
-                    }
+                    {...register('confirmPassword')}
                   />
+                  {errors.confirmPassword && (
+                    <p className="mt-1 text-sm text-red-500">{errors.confirmPassword.message}</p>
+                  )}
                 </div>
                 <div className="md:col-span-2">
                   <button

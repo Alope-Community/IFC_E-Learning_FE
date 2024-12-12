@@ -34,10 +34,17 @@ export default function CoursePage() {
 
   return (
     <MasterLayout>
-      <div className="bg-indigo-500 h-[300px] flex flex-col items-center justify-center mt-16 text-white">
-        <h2 className="text-4xl font-medium">E-COURSE</h2>
-        <p className="text-gray-100 mt-3">Learning Platform For You</p>
+      <div className="relative bg-[url('/assets/courses/1.jpg')] h-[300px] flex flex-col items-center justify-center mt-16 text-white">
+        {/* Overlay hitam */}
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+
+        {/* Konten utama */}
+        <div className="relative z-10">
+          <h2 className="text-4xl font-medium">E-COURSE</h2>
+          <p className="text-gray-100 mt-3">Learning Platform For You</p>
+        </div>
       </div>
+
       <section className="grid xl:grid-cols-4 xl:px-20 md:px-10 px-5 mt-10 gap-10">
         <div className="relative">
           <div className="bg-white rounded shadow-sm p-5 sticky top-24">
