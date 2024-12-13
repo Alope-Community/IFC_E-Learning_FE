@@ -1,11 +1,13 @@
 "use client";
 
 import { getCourseBySlug } from "@/api/Courses";
+import { getSubmitSubmission } from "@/api/SubmitSubmission";
 import Modal from "@/components/Modal";
 import useSubmitSubmission from "@/hooks/submitSubmission";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
 import { Submission } from "@/models/Submission";
+import { SubmitSubmission } from "@/models/SubmitSubmission";
 import formatDate from "@/tools/dateFormatter";
 import { getUserId } from "@/utils/getUserId";
 import { useQuery } from "@tanstack/react-query";
@@ -43,6 +45,14 @@ export default function DetailCoursePage({
     queryFn: () => getCourseBySlug(slug, userId || 0),
     enabled: !!slug,
   });
+
+  const { data: submitSubmissions, isLoading: loadingGetSubmitSubmission } =
+    useQuery({
+      queryKey: ["submit-submission", slug, userId],
+      queryFn: () =>
+        getSubmitSubmission({ user_id: userId || 0, course_slug: slug }),
+      enabled: !!slug,
+    });
 
   const mutationJoin = useJoinCourse();
   const mutationLeave = useLeaveCourse();
@@ -111,6 +121,33 @@ export default function DetailCoursePage({
 
     mutationSubmitSubmission.mutate(formSubmitData);
   };
+
+  // Check if data from both queries is loaded
+  if (isLoading || loadingGetSubmitSubmission) {
+    return (
+      <div className="xl:px-20 md:px-10 px-5 mt-28">
+        <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+          <IconLoader className="size-7" />
+          <p className="font-medium text-xl mt-1">Loading ...</p>
+          <small className="text-sm text-gray-800 mt-3">
+            Harap Tunggu Sebentar
+          </small>
+        </div>
+      </div>
+    );
+  }
+
+  // Check if both datasets are available
+  if (!data?.data?.submission || !submitSubmissions) {
+    return <p>No data available.</p>;
+  }
+
+  const matchedSubmissions = submitSubmissions.filter(
+    (item1: SubmitSubmission) =>
+      data.data.submission.some(
+        (item2: SubmitSubmission) => item1.submission_id === item2.id
+      )
+  );
 
   return (
     <MasterLayout>
@@ -219,48 +256,61 @@ export default function DetailCoursePage({
                 ></div>
                 <hr className="my-10" />
                 <div>
-                  {data.data.submission.map((row: Submission) => (
-                    <div
-                      key={row.id}
-                      className="mb-10 scroll-mt-20"
-                      id={`ID${row.id}`}
-                    >
-                      <h5 className="font-medium text-xl mb-2 flex items-center gap-3">
-                        <IconBookOpenFill />
-                        {row.title}
-                      </h5>
-                      <p className="mb-5 text-sm">
-                        Batas Akhir: {row.deadline}
-                      </p>
-                      <p className="mb-4">{row.description}</p>
-                      <h5 className="font-semibold">Jawab: </h5>
-                      <form onSubmit={(e) => handleSubmitSubmission(e)}>
-                        <input
-                          name="submissionID"
-                          type="text"
-                          value={row.id}
-                          readOnly
-                          hidden
-                        />
-                        <textarea
-                          name="body"
-                          placeholder="Masukkan pesan disini ..."
-                          className="border rounded w-full h-[150px] p-2"
-                          onChange={(e) => {
-                            setFormData({
-                              ...formData,
-                              body: e.target.value,
-                            });
-                          }}
-                        ></textarea>
-                        <input type="file" onChange={handleFileChange} />
-                        <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
-                          Submit
-                        </button>
-                      </form>
-                      <hr className="my-10" />
-                    </div>
-                  ))}
+                  {loadingGetSubmitSubmission ? (
+                    <p>loading</p>
+                  ) : (
+                    data.data.submission.map((row: Submission) => (
+                      <div
+                        key={row.id}
+                        className="mb-10 scroll-mt-20"
+                        id={`ID${row.id}`}
+                      >
+                        <h5 className="font-medium text-xl mb-2 flex items-center gap-3">
+                          <IconBookOpenFill />
+                          {row.title}
+                        </h5>
+                        <p className="mb-5 text-sm">
+                          Batas Akhir: {row.deadline}
+                        </p>
+                        <p className="mb-4">{row.description}</p>
+                        <h5 className="font-semibold">Jawab: </h5>
+                        <form onSubmit={(e) => handleSubmitSubmission(e)}>
+                          <input
+                            name="submissionID"
+                            type="text"
+                            value={row.id}
+                            readOnly
+                            hidden
+                          />
+                          <textarea
+                            name="body"
+                            placeholder="Masukkan pesan disini ..."
+                            className="border rounded w-full h-[150px] p-2"
+                            onChange={(e) => {
+                              setFormData({
+                                ...formData,
+                                body: e.target.value,
+                              });
+                            }}
+                          ></textarea>
+                          <input type="file" onChange={handleFileChange} />
+                          {matchedSubmissions.some(
+                            (submission: SubmitSubmission) =>
+                              submission.submission_id === row.id
+                          ) ? (
+                            <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
+                              Done
+                            </button>
+                          ) : (
+                            <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
+                              Submit
+                            </button>
+                          )}
+                        </form>
+                        <hr className="my-10" />
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

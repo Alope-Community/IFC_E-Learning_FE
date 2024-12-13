@@ -116,7 +116,7 @@ export default function CoursePage() {
             </div>
           )}
           {loadingGetCourses ? (
-            <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+            <div className="bg-gray-200 xl:col-span-3 col-span-4 px-5 py-10 rounded-md flex flex-col justify-center items-center">
               <IconLoader className="size-7" />
               <p className="font-medium text-xl mt-1">Loading ...</p>
               <small className="text-sm text-gray-800 mt-3">

@@ -1,5 +1,5 @@
 // import UploadImage from "@/apis/_UploadImage";
-import submitSubmission from "@/api/SubmitSubmission";
+import { submitSubmission } from "@/api/SubmitSubmission";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useSubmitSubmission = () => {
