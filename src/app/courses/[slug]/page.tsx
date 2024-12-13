@@ -2,6 +2,7 @@
 
 import { getCourseBySlug } from "@/api/Courses";
 import Modal from "@/components/Modal";
+import useSubmitSubmission from "@/hooks/submitSubmission";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
 import { Submission } from "@/models/Submission";
@@ -11,13 +12,20 @@ import { useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
   IconCalendarFill,
+  IconLoader,
   IconPeopleFill,
 } from "justd-icons";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 
 interface DetailCourseParam {
   slug: string;
 }
+
+type FormData = {
+  submissionId: number;
+  body: string;
+  file: File | null; // Izinkan file menjadi null
+};
 
 export default function DetailCoursePage({
   params: paramsPromise,
@@ -38,6 +46,7 @@ export default function DetailCoursePage({
 
   const mutationJoin = useJoinCourse();
   const mutationLeave = useLeaveCourse();
+  const mutationSubmitSubmission = useSubmitSubmission();
 
   const handleSubmitJoinCourse = async () => {
     setOpenModal(!openModal);
@@ -62,10 +71,59 @@ export default function DetailCoursePage({
     setUserId(id ? parseInt(id) : 0);
   }, []);
 
+  const [formData, setFormData] = useState<FormData>({
+    submissionId: 0,
+    body: "",
+    file: null,
+  });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      file,
+    }));
+  };
+
+  const handleSubmitSubmission = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const submissionID = form.submissionID as HTMLInputElement;
+
+    setFormData({
+      ...formData,
+      submissionId: parseInt(submissionID.value),
+    });
+
+    const formSubmitData = new FormData();
+
+    formSubmitData.append("user_id", userId ? userId.toString() : "");
+    formSubmitData.append("file", formData.file ? formData.file : "");
+    formSubmitData.append("body", formData.body ? formData.body : "");
+    formSubmitData.append(
+      "submission_id",
+      formData.submissionId
+        ? formData.submissionId.toString()
+        : submissionID.value
+    );
+
+    mutationSubmitSubmission.mutate(formSubmitData);
+  };
+
   return (
     <MasterLayout>
       {isLoading ? (
-        <p className="mt-28">Loading ...</p>
+        <div className="xl:px-20 md:px-10 px-5 mt-28">
+          <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+            <IconLoader className="size-7" />
+            <p className="font-medium text-xl mt-1">Loading ...</p>
+            <small className="text-sm text-gray-800 mt-3">
+              Harap Tunggu Sebentar
+            </small>
+          </div>
+        </div>
       ) : (
         <div className="xl:px-20 md:px-10 px-5 mt-28">
           <section
@@ -176,13 +234,26 @@ export default function DetailCoursePage({
                       </p>
                       <p className="mb-4">{row.description}</p>
                       <h5 className="font-semibold">Jawab: </h5>
-                      <form action="">
+                      <form onSubmit={(e) => handleSubmitSubmission(e)}>
+                        <input
+                          name="submissionID"
+                          type="text"
+                          value={row.id}
+                          readOnly
+                          hidden
+                        />
                         <textarea
-                          name=""
-                          id=""
+                          name="body"
+                          placeholder="Masukkan pesan disini ..."
                           className="border rounded w-full h-[150px] p-2"
+                          onChange={(e) => {
+                            setFormData({
+                              ...formData,
+                              body: e.target.value,
+                            });
+                          }}
                         ></textarea>
-                        <input type="file" />
+                        <input type="file" onChange={handleFileChange} />
                         <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
                           Submit
                         </button>

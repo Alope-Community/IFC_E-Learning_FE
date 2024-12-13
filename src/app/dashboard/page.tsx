@@ -4,7 +4,7 @@ import CourseCard from "@/components/CourseCard";
 import MasterLayout from "@/layouts/master";
 import limitStr from "@/tools/limitStr";
 import { useQuery } from "@tanstack/react-query";
-import { IconLoader, IconSearch } from "justd-icons";
+import { IconInboxEmptyFill, IconLoader, IconSearch } from "justd-icons";
 // import Link from "next/link";
 // import React, { useState } from "react";
 
@@ -86,17 +86,28 @@ export default function DashboardPage() {
             </div>
           ) : (
             <>
-              {data?.courses.map((course) => (
-                <div key={course.id}>
-                  <CourseCard
-                    title={limitStr(course.title, 35)}
-                    slug={course.slug}
-                    description={limitStr(course.description, 100)}
-                    teacher={course.user.name}
-                    category={course.category.title}
-                  />
+              {data?.courses.length ? (
+                data?.courses.map((course) => (
+                  <div key={course.id}>
+                    <CourseCard
+                      id={course.id}
+                      title={limitStr(course.title, 35)}
+                      slug={course.slug}
+                      description={limitStr(course.description, 100)}
+                      teacher={course.user.name}
+                      category={course.category.title}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+                  <IconInboxEmptyFill className="size-7" />
+                  <p className="font-medium text-xl mt-1">Kosong</p>
+                  <small className="text-sm text-gray-800 mt-3">
+                    Kamu belum masuk ke kelas manapun!
+                  </small>
                 </div>
-              ))}
+              )}
             </>
           )}
           <div className="xl:col-span-3 flex justify-center mt-10">
