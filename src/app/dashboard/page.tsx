@@ -3,8 +3,10 @@ import getDashboard from "@/api/Dashboard";
 import CourseCard from "@/components/CourseCard";
 import MasterLayout from "@/layouts/master";
 import limitStr from "@/tools/limitStr";
+import { getUserData } from "@/utils/getUserData";
 import { useQuery } from "@tanstack/react-query";
 import { IconInboxEmptyFill, IconLoader, IconSearch } from "justd-icons";
+import { useEffect, useState } from "react";
 // import Link from "next/link";
 // import React, { useState } from "react";
 
@@ -12,9 +14,24 @@ export default function DashboardPage() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const [searchVal, setSearchVal] = useState("");
 
+  const [userData, setUserData] = useState({
+    id: "",
+    name: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    const data = getUserData();
+    setUserData({
+      id: data?.id || "0",
+      name: data?.name || "",
+      email: data?.email || "",
+    });
+  }, []);
+
   const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
-    queryFn: () => getDashboard({ user_id: 5 }),
+    queryFn: () => getDashboard({ user_id: parseInt(userData.id) }),
   });
 
   // const handlePageChange = (page: number) => {
@@ -47,37 +64,8 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="xl:col-span-3 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-          {/* {!isLoading && (
-            <div className="md:col-span-3 sm:col-span-2 bg-white shadow-sm py-5 px-4 rounded flex md:flex-row flex-col gap-5 items-center justify-between">
-              <div>
-                <p className="md:text-md text-sm">
-                  Menemukan{" "}
-                  <span className="font-medium text-indigo-500">
-                    {data?.total}
-                  </span>{" "}
-                  Pelajaran
-                </p>
-              </div>
-              <div>
-                <div className="flex gap-3 items-center">
-                  <label htmlFor="categories" className="md:text-md text-sm">
-                    Sort By :
-                  </label>
-                  <select
-                    className="bg-gray-100 px-3 py-2 rounded"
-                    name=""
-                    id="categories"
-                  >
-                    <option value="" className="md:text-base text-sm">
-                      (Default)
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          )} */}
           {isLoading ? (
-            <div className="bg-gray-200 xl:col-span-3 px-5 py-10 rounded-md flex flex-col justify-center items-center">
+            <div className="bg-gray-200 xl:col-span-3 sm:col-span-2 px-5 py-10 rounded-md flex flex-col justify-center items-center">
               <IconLoader className="size-7" />
               <p className="font-medium text-xl mt-1">Loading ...</p>
               <small className="text-sm text-gray-800 mt-3">

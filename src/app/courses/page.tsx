@@ -139,7 +139,7 @@ export default function CoursePage() {
               ))}
             </>
           )}
-          <div className="xl:col-span-3 flex justify-center mt-10">
+          <div className="xl:col-span-3 sm:col-span-2 flex justify-center mt-10">
             <PaginationComponent
               currentPage={currentPage}
               totalPages={courses?.last_page || 0}

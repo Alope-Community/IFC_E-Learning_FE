@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
   IconCalendarFill,
+  IconFileDownloadFill,
   IconLoader,
   IconPeopleFill,
 } from "justd-icons";
@@ -259,57 +260,83 @@ export default function DetailCoursePage({
                   {loadingGetSubmitSubmission ? (
                     <p>loading</p>
                   ) : (
-                    data.data.submission.map((row: Submission) => (
-                      <div
-                        key={row.id}
-                        className="mb-10 scroll-mt-20"
-                        id={`ID${row.id}`}
-                      >
-                        <h5 className="font-medium text-xl mb-2 flex items-center gap-3">
-                          <IconBookOpenFill />
-                          {row.title}
-                        </h5>
-                        <p className="mb-5 text-sm">
-                          Batas Akhir: {row.deadline}
-                        </p>
-                        <p className="mb-4">{row.description}</p>
-                        <h5 className="font-semibold">Jawab: </h5>
-                        <form onSubmit={(e) => handleSubmitSubmission(e)}>
-                          <input
-                            name="submissionID"
-                            type="text"
-                            value={row.id}
-                            readOnly
-                            hidden
-                          />
-                          <textarea
-                            name="body"
-                            placeholder="Masukkan pesan disini ..."
-                            className="border rounded w-full h-[150px] p-2"
-                            onChange={(e) => {
-                              setFormData({
-                                ...formData,
-                                body: e.target.value,
-                              });
-                            }}
-                          ></textarea>
-                          <input type="file" onChange={handleFileChange} />
-                          {matchedSubmissions.some(
-                            (submission: SubmitSubmission) =>
-                              submission.submission_id === row.id
-                          ) ? (
-                            <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
-                              Done
-                            </button>
-                          ) : (
-                            <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
-                              Submit
-                            </button>
-                          )}
-                        </form>
-                        <hr className="my-10" />
-                      </div>
-                    ))
+                    data.data.submission.map(
+                      (row: Submission, index: number) => (
+                        <div
+                          key={row.id}
+                          className="mb-10 scroll-mt-20"
+                          id={`ID${row.id}`}
+                        >
+                          <h5 className="font-medium text-xl mb-2 flex items-center gap-3">
+                            <IconBookOpenFill />
+                            {row.title}
+                          </h5>
+                          <p className="mb-5 text-sm">
+                            Batas Akhir: {row.deadline}
+                          </p>
+                          <p className="mb-4">{row.description}</p>
+                          <h5 className="font-semibold">Jawab: </h5>
+                          <form onSubmit={(e) => handleSubmitSubmission(e)}>
+                            <input
+                              name="submissionID"
+                              type="text"
+                              value={row.id}
+                              readOnly
+                              hidden
+                            />
+                            {matchedSubmissions.some(
+                              (submission: SubmitSubmission) =>
+                                submission.submission_id === row.id
+                            ) ? (
+                              <>
+                                <textarea
+                                  name="body"
+                                  placeholder="Masukkan pesan disini ..."
+                                  className="border rounded w-full h-[150px] p-2"
+                                  disabled={matchedSubmissions}
+                                  defaultValue={submitSubmissions[index].body}
+                                ></textarea>
+                                {submitSubmissions[index].file && (
+                                  <a
+                                    href={`http://127.0.0.1:8000/storage/${submitSubmissions[index].file}`}
+                                    target="_blank"
+                                    className="px-5 py-2 rounded bg-gray-100 hover:bg-gray-200 mt-4 text-gray-800 inline-flex items-center gap-3 shadow-sm"
+                                  >
+                                    <IconFileDownloadFill />
+                                    Download File
+                                  </a>
+                                )}
+                                <button className="block bg-emerald-500 hover:bg-emerald-400 py-2 rounded w-full text-white mt-5 cursor-not-allowed">
+                                  Done
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <textarea
+                                  name="body"
+                                  placeholder="Masukkan pesan disini ..."
+                                  className="border rounded w-full h-[150px] p-2"
+                                  onChange={(e) => {
+                                    setFormData({
+                                      ...formData,
+                                      body: e.target.value,
+                                    });
+                                  }}
+                                ></textarea>
+                                <input
+                                  type="file"
+                                  onChange={handleFileChange}
+                                />
+                                <button className="block bg-indigo-500 hover:bg-indigo-400 py-2 rounded w-full text-white mt-5">
+                                  Submit
+                                </button>
+                              </>
+                            )}
+                          </form>
+                          <hr className="my-10" />
+                        </div>
+                      )
+                    )
                   )}
                 </div>
               </div>
