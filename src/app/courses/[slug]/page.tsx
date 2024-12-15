@@ -463,17 +463,7 @@ export default function DetailCoursePage({
                             <div className="mb-12" key={discussion.id}>
                               <div className="mb-7">
                                 <div className="flex gap-2 items-center">
-                                  <span className="block w-[30px] h-[30px] bg-indigo-500 rounded-full">
-                                    {discussion.user.profile ? (
-                                      <img
-                                        src={`http://127.0.0.1:8000/storage/profile/${discussion.user.profile}`}
-                                        alt="profile"
-                                        className="w-full h-full object-cover rounded-full"
-                                      />
-                                    ) : (
-                                      ""
-                                    )}
-                                  </span>
+                                  <span className="block w-[30px] h-[30px] bg-indigo-500 rounded-full"></span>
                                   <p className="font-medium">
                                     {discussion.user.name}
                                   </p>
@@ -507,7 +497,7 @@ export default function DetailCoursePage({
                             setComment(e.target.value);
                           }}
                           value={comment}
-                          defaultValue={comment}
+                          // defaultValue={comment}
                         ></textarea>
                         <button
                           type="submit"
