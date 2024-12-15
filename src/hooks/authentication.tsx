@@ -12,12 +12,12 @@ const useLogin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["login"] });
 
-      toast.success("Login Success!", { position: "top-right" });
+      toast.success('Login Success!')
 
       router.push("/");
     },
     onError: (error) => {
-      toast.error(error.message, { position: "top-right" });
+      toast.error(error.message)
 
       console.log("Error Login item:", error);
     },
