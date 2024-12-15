@@ -2,6 +2,7 @@
 import { getCategories } from "@/api/Categories";
 import { getCourses } from "@/api/Courses";
 import CourseCard from "@/components/CourseCard";
+import LoaderComponent from "@/components/Loader";
 import PaginationComponent from "@/components/Pagination";
 import { useJoinCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
@@ -17,6 +18,8 @@ export default function CoursePage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchVal, setSearchVal] = useState("");
+
+  const [isLoading, setIsloading] = useState(false);
 
   const { data: categories, isLoading: loadingGetCategories } = useQuery<
     Category[]
@@ -74,29 +77,42 @@ export default function CoursePage() {
   }, []);
 
   const handleJoinClass = async () => {
-    setIsModalOpen(!isModalOpen);
+    setIsloading(true);
 
-    mutationJoin.mutate({
-      code: classCode,
-      user_id: userId || 0,
-    });
-
-    setClassCode("")
+    try {
+      await mutationJoin.mutateAsync({
+        code: classCode,
+        user_id: userId || 0,
+      });
+      setClassCode("");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsloading(false);
+    }
   };
+
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <MasterLayout>
-      <div className="relative bg-[url('/assets/courses/cover1.jpg')] h-[300px] bg-cover bg-center flex flex-col items-center justify-center mt-16 text-white">
+      <div className="relative bg-gradient-to-r from-indigo-500 to-purple-500 h-[300px] bg-cover bg-center flex flex-col items-center justify-center mt-16 text-white">
         {/* Overlay hitam */}
-        <div className="absolute inset-0 bg-black opacity-70"></div>
+        {/* <div className="absolute inset-0 bg-black opacity-70"></div> */}
 
         {/* Konten utama */}
         <div className="relative z-10 text-center">
-          <h2 className="text-4xl font-medium">EduVerse</h2>
-          <p className="text-gray-100 mt-3">Learning Beyond Boundaries</p>
+          <h2 className="text-4xl font-medium">Jelajahi Kelas</h2>
+          <p className="mt-1">
+            Pilih kelas yang sesuai dengan minatmu di EduVerse dan mulai
+            tingkatkan keahlianmu bersama kami!
+          </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-10 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600"
+            className="mt-10 bg-gray-100 px-4 py-2 rounded text-gray-800 hover:bg-gray-50"
           >
             Gabung dengan Kode
           </button>
@@ -249,12 +265,15 @@ export default function CoursePage() {
               type="text"
               value={classCode}
               onChange={(e) => setClassCode(e.target.value)}
-              className="w-full px-4 py-2 border rounded mb-4"
+              className="w-full px-4 py-2 border rounded"
               placeholder="Contoh: ABC123"
             />
+            <small className="italic text-gray-700">
+              Dapatkan kode kelas dari gurumu
+            </small>
             <button
               onClick={handleJoinClass}
-              className="w-full bg-blue-500 px-4 py-2 text-white rounded hover:bg-blue-600"
+              className="w-full bg-blue-500 px-4 py-2 text-white rounded hover:bg-blue-600 mt-5"
             >
               Gabung
             </button>

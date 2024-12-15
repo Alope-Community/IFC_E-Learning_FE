@@ -23,24 +23,30 @@ const LoginPage = () => {
     resolver: zodResolver(loginValidator),
   });
 
+  const [isLoading, setIsloading] = useState(false);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setClientOnly(true);
     }
   }, []);
 
-  // const [formData, setFormData] = useState({
-  //   email: "",
-  //   password: "",
-  // });
-
   const handleSubmit = onSubmit(async (data, event) => {
     event?.preventDefault();
-    mutation.mutate(data);
-    // const result = await login(formData);
-    // if (result) {
-    // }
+
+    setIsloading(true);
+    try {
+      await mutation.mutateAsync(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsloading(false);
+    }
   });
+
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <div>
@@ -48,16 +54,14 @@ const LoginPage = () => {
         <section className="min-h-screen grid xl:grid-cols-2">
           <div className="bg-[url(/assets/auth.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
             <h2 className="text-3xl text-white font-bold">EduVerse</h2>
-            <p className="text-gray-200">
-            Learning Beyond Boundaries
-            </p>
+            <p className="text-gray-200">Learning Beyond Boundaries</p>
           </div>
           <div className="flex items-center justify-center">
             <div className="md:w-2/3 w-11/12">
               <div className="mb-10">
                 <h3 className="text-2xl font-semibold">Login EduVerse</h3>
                 <p className="text-gray-600 mt-2">
-                Gerbang menuju dunia pengetahuan.
+                  Gerbang menuju dunia pengetahuan.
                 </p>
               </div>
               <form method="POST" onSubmit={handleSubmit}>

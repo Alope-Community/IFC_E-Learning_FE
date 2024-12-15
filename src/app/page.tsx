@@ -62,7 +62,7 @@ export default function ProtectedPage() {
           <div className="xl:order-1 order-2">
             <h2 className="md:text-3xl text-xl font-semibold md:leading-10">
               Belajar Tanpa Batas, Dimanapun dan Kapanpun. Langkah Kecil
-              <span className="ml-2 relative z-10 after:content-[''] after:absolute after:h-3 after:bg-indigo-500 after:w-full after:bottom-0 after:left-0 after:-z-10 after:-rotate-1">
+              <span className="ml-2 relative z-10 after:content-[''] after:absolute after:h-3 after:bg-gradient-to-r from-indigo-500 to-purple-500 after:w-full after:-bottom-1 after:left-0 after:-z-10 after:-rotate-1">
                 Menuju Impian Besar
               </span>
               .
@@ -83,10 +83,10 @@ export default function ProtectedPage() {
                 </Link>
               </div>
               <button onClick={openModal} className="flex gap-2 items-center">
-                <span className="md:size-10 size-8 bg-indigo-500 inline-flex items-center justify-center rounded-full text-white">
+                <span className="md:size-10 size-7 bg-gradient-to-tr from-indigo-500 to-purple-500 inline-flex items-center justify-center rounded-full text-white md:text-base text-sm">
                   <IconPlayFill className="size-4" />
                 </span>
-                Tentang E-Course
+                Tentang EduVerse
               </button>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function ProtectedPage() {
               <div>
                 <p className="font-medium">200+ Penggguna</p>
                 <p className="text-xs text-gray-800">
-                  Telah mengambil kelas ini
+                  Telah bergabung di EduVerse
                 </p>
               </div>
             </div>
@@ -135,8 +135,11 @@ export default function ProtectedPage() {
               </span>
               <h3 className="text-3xl font-medium">Pelajaran</h3>
             </div>
-            <p className="mt-3 text-gray-700 md:w-1/2 mb-5">
-              Belajar tanpa batas, bangun keterampilan! Kami menyediakan berbagai materi edukatif, mulai dari teknologi, pemrograman, hingga materi umum lainnya yang mudah dipahami untuk semua kalangan.
+            <p className="mt-3 text-gray-700 lg:w-1/2 md:w-2/3 mb-5 md:text-base text-sm">
+              Belajar tanpa batas, bangun keterampilan! Kami menyediakan
+              berbagai materi edukatif, mulai dari teknologi, pemrograman,
+              hingga materi umum lainnya yang mudah dipahami untuk semua
+              kalangan.
             </p>
           </div>
           <div className="xl:col-span-4 md:col-span-2 flex items-center gap-2">
@@ -213,49 +216,58 @@ export default function ProtectedPage() {
               Eduverse - Learning Beyond Boundaries
             </h3>
             <p className="text-gray-800 mt-5">
-              Menghadirkan pengalaman belajar yang luas layaknya semesta, Eduverse dirancang untuk menggabungkan pendidikan berkualitas dengan akses global, menciptakan ruang belajar tanpa batas yang modern dan inklusif.
+              Menghadirkan pengalaman belajar yang luas layaknya semesta,
+              Eduverse dirancang untuk menggabungkan pendidikan berkualitas
+              dengan akses global, menciptakan ruang belajar tanpa batas yang
+              modern dan inklusif.
             </p>
             <div className="my-10">
               <div className="flex items-center gap-5 mb-5">
-                <span className="bg-indigo-500 size-10 flex items-center justify-center text-white text-xl rounded-full">
+                <span className="bg-gradient-to-tr from-purple-500 to-indigo-500 size-6 text-sm flex items-center justify-center text-white rounded-full">
                   1
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Menghapus batasan geografis dan memberikan akses bagi siapa saja untuk menikmati pendidikan berkualitas di mana pun berada.
+                  Menghapus batasan geografis dan memberikan akses bagi siapa
+                  saja untuk menikmati pendidikan berkualitas di mana pun
+                  berada.
                 </p>
               </div>
               <div className="flex items-center gap-5 mb-5">
-                <span className="bg-indigo-500 size-10 flex items-center justify-center text-white text-xl rounded-full">
+                <span className="bg-gradient-to-tr from-purple-500 to-indigo-500 size-6 text-sm flex items-center justify-center text-white rounded-full">
                   2
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Menyediakan berbagai jenis materi pembelajaran, mulai dari pemrograman, ilmu umum, hingga pengembangan keterampilan profesional.
+                  Menyediakan berbagai jenis materi pembelajaran, mulai dari
+                  pemrograman, ilmu umum, hingga pengembangan keterampilan
+                  profesional.
                 </p>
               </div>
               <div className="flex items-center gap-5 mb-5">
-                <span className="bg-indigo-500 size-10 flex items-center justify-center text-white text-xl rounded-full">
+                <span className="bg-gradient-to-tr from-purple-500 to-indigo-500 size-6 text-sm flex items-center justify-center text-white rounded-full">
                   3
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Dengan teknologi canggih, Eduverse memberikan fleksibilitas, kenyamanan, dan pengalaman belajar yang interaktif.
+                  Dengan teknologi canggih, Eduverse memberikan fleksibilitas,
+                  kenyamanan, dan pengalaman belajar yang interaktif.
                 </p>
               </div>
               <div className="flex items-center gap-5 mb-5">
-                <span className="bg-indigo-500 size-10 flex items-center justify-center text-white text-xl rounded-full">
+                <span className="bg-gradient-to-tr from-purple-500 to-indigo-500 size-6 text-sm flex items-center justify-center text-white rounded-full">
                   4
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Membangun jaringan pembelajar dari seluruh dunia, memungkinkan kolaborasi dan pertukaran ide secara luas.
+                  Membangun jaringan pembelajar dari seluruh dunia, memungkinkan
+                  kolaborasi dan pertukaran ide secara luas.
                 </p>
               </div>
             </div>
             <div>
-            <Link
-              href="/courses"
-              className="bg-indigo-500 hover:bg-indigo-400 md:px-5 px-4 py-2 rounded text-white md:text-base text-xs inline-flex items-center gap-2"
-            >
-              Lihat Semua Kelas
-            </Link>
+              <Link
+                href="/courses"
+                className="bg-indigo-500 hover:bg-indigo-400 md:px-5 px-4 py-2 rounded text-white md:text-base text-xs inline-flex items-center gap-2"
+              >
+                Lihat Semua Kelas
+              </Link>
             </div>
           </div>
         </section>
@@ -266,17 +278,18 @@ export default function ProtectedPage() {
           className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={closeModal}
         >
-          <div className="bg-white rounded-lg max-w-xl w-full overflow-hidden">
+          <div className="bg-white rounded-lg max-w-xl md:w-[600px] w-[90%] overflow-hidden">
             <div className="relative pb-56.25">
               <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/WvmsN2VLUa8?si=Y1AHUlE7yJqyes9p"
+                src="https://www.youtube.com/embed/bmU3C9OmWK8?si=V1bZ2NVt-p2CVuUx"
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
+                className="w-full"
               ></iframe>
             </div>
             <button

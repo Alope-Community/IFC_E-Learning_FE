@@ -22,23 +22,30 @@ const RegistrationPage = () => {
     resolver: zodResolver(registerValidator),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setClientOnly(true);
     }
   }, []);
 
-  // const [formData, setFormData] = useState<FormDataRegister>({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  //   password_confirmation: "",
-  // });
-
   const handleSubmit = onSubmit(async (data, event) => {
     event?.preventDefault();
-    mutation.mutate(data);
+
+    setIsLoading(true);
+    try {
+      mutation.mutateAsync(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   });
+
+  if (isLoading) {
+    return <LoaderComponent />;
+  }
 
   return (
     <div>
@@ -47,9 +54,9 @@ const RegistrationPage = () => {
           <div className="flex items-center justify-center">
             <div className="md:w-5/6 w-11/12">
               <div className="mb-10">
-              <h3 className="text-2xl font-semibold">Registrasi EduVerse</h3>
+                <h3 className="text-2xl font-semibold">Registrasi EduVerse</h3>
                 <p className="text-gray-600 mt-2">
-                Buat Kuncimu untuk menuju Gerbang dunia pengetahuan.
+                  Buat Kuncimu untuk menuju Gerbang dunia pengetahuan.
                 </p>
               </div>
               <form
@@ -167,10 +174,8 @@ const RegistrationPage = () => {
             </div>
           </div>
           <div className="bg-[url(/assets/auth.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
-          <h2 className="text-3xl text-white font-bold">EduVerse</h2>
-            <p className="text-gray-200">
-            Learning Beyond Boundaries
-            </p>
+            <h2 className="text-3xl text-white font-bold">EduVerse</h2>
+            <p className="text-gray-200">Learning Beyond Boundaries</p>
           </div>
         </section>
       ) : (

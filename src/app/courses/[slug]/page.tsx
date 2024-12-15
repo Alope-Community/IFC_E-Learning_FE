@@ -2,6 +2,7 @@
 
 import { getCourseBySlug } from "@/api/Courses";
 import { getSubmitSubmission } from "@/api/SubmitSubmission";
+import LoaderComponent from "@/components/Loader";
 import Modal from "@/components/Modal";
 import useSubmitSubmission from "@/hooks/submitSubmission";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
@@ -20,6 +21,7 @@ import {
   IconLoader,
   IconPeopleFill,
 } from "justd-icons";
+import Image from "next/image";
 import React, { FormEvent, useEffect, useState } from "react";
 
 interface DetailCourseParam {
@@ -42,6 +44,7 @@ export default function DetailCoursePage({
 
   const [userId, setUserId] = useState<number | null>(0);
   const [openModal, setOpenModal] = useState(false);
+  const [isLoadingSubmit, setIsLoading] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["courses", slug, userId],
@@ -63,20 +66,35 @@ export default function DetailCoursePage({
 
   const handleSubmitJoinCourse = async () => {
     setOpenModal(!openModal);
-
-    mutationJoin.mutate({
-      course_id: data?.data?.id || 0,
-      user_id: userId || 0,
-    });
+    setIsLoading(true);
+    try {
+      await mutationJoin.mutateAsync({
+        course_id: data?.data?.id || 0,
+        user_id: userId || 0,
+      });
+      setOpenModal(false);
+    } catch (error) {
+      console.error(error); // Tangani error jika ada
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSubmitLeaveCourse = async () => {
     setOpenModal(!openModal);
+    setIsLoading(true);
 
-    mutationLeave.mutate({
-      course_id: data?.data?.id || 0,
-      user_id: userId || 0,
-    });
+    try {
+      await mutationLeave.mutateAsync({
+        course_id: data?.data?.id || 0,
+        user_id: userId || 0,
+      });
+      setOpenModal(false);
+    } catch (error) {
+      console.error(error); // Tangani error jika ada
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -142,6 +160,10 @@ export default function DetailCoursePage({
     );
   }
 
+  if (isLoadingSubmit) {
+    return <LoaderComponent />;
+  }
+
   // Check if both datasets are available
   if (!data?.data?.submission || !submitSubmissions) {
     return <p>No data available.</p>;
@@ -169,7 +191,7 @@ export default function DetailCoursePage({
       ) : (
         <div className="xl:px-20 md:px-10 px-5 mt-28">
           <section
-            className="bg-indigo-500 bg-[url('/assets/courses/cover2.jpg')] bg-cover h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white overflow-hidden z-10 relative after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r from-indigo-500 to-indigo-500/30 after:-z-10"
+            className="bg-gradient-to-r from-indigo-500 to-purple-500 bg-cover h-[300px] w-full rounded-md mt-10 mx-auto flex items-end p-5 text-white overflow-hidden z-10 relative after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-r after:-z-10"
             style={{ backgroundPositionY: -50 }}
           >
             <div>
@@ -180,13 +202,26 @@ export default function DetailCoursePage({
                 {data?.data?.category.title}
               </p>
             </div>
+            {/* <IconBookOpenFill className="size-11/12 absolute right-0" /> */}
           </section>
           <section className="grid xl:grid-cols-4 mt-10 gap-5">
             <div className="relative">
               <div className="sticky top-10">
                 <div className="border p-4 rounded bg-white w-full">
                   <div className="flex gap-2 items-center mb-5">
-                    <span className="w-[55px] h-[55px] rounded-full bg-indigo-500"></span>
+                    <span className="w-[55px] h-[55px] rounded-full bg-indigo-500">
+                      {data.data.user.profile ? (
+                        <Image
+                          src={`http://127.0.0.1:8000/storage/profiles/${data.data.user.profile}`}
+                          alt="Profile Teacher"
+                          width={100}
+                          height={100}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </span>
                     <div>
                       <p className="text-xl font-medium">
                         {data?.data?.user.name}
@@ -243,11 +278,14 @@ export default function DetailCoursePage({
                   <div className="bg-white mt-5 p-5 rounded border">
                     <h4 className="font-medium mb-4 flex items-center gap-3">
                       <IconBookOpenFill />
-                      Submissions
+                      Tugas
                     </h4>
                     <ul className="list-decimal pl-5">
                       {data.data.submission.map((row: Submission) => (
-                        <li key={row.id} className="text-sm mb-2">
+                        <li
+                          key={row.id}
+                          className="text-sm mb-2 hover:font-semibold"
+                        >
                           <a href={`#ID${row.id}`}>{row.title}</a>
                         </li>
                       ))}

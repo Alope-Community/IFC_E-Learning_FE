@@ -50,9 +50,12 @@ export default function DashboardPage() {
 
   return (
     <MasterLayout>
-      <div className="bg-indigo-500 h-[300px] flex flex-col items-center justify-center mt-16 text-white">
-        <h2 className="text-4xl font-medium">Dashboard</h2>
-        {/* <p className="text-gray-100 mt-3">Kelas yang kamu ikuti</p> */}
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-[300px] flex flex-col items-center justify-center mt-16 text-white">
+        <h2 className="text-4xl font-medium">Selamat Datang di Dashboard</h2>
+        <p>
+          Kelola Kelas yang kamu ikuti, pantau tugas, dan capai nilai terbaikmu
+          bersama EduVerse!
+        </p>
       </div>
       <section className="grid xl:grid-cols-4 xl:px-20 md:px-10 px-5 mt-10 gap-10">
         <div className="relative">
@@ -61,7 +64,9 @@ export default function DashboardPage() {
               <span className="w-[50px] h-[50px] bg-indigo-500 inline-flex rounded-full mb-3">
                 {userData.avatar ? (
                   <img src={`/avatars/${userData.avatar}`} />
-                ) : ""}
+                ) : (
+                  ""
+                )}
               </span>
               <h3>{userData.name}</h3>
               <p className="text-sm italic text-gray-800">{userData.email}</p>
