@@ -1,16 +1,24 @@
 "use client";
 import getDashboard from "@/api/Dashboard";
 import CourseCard from "@/components/CourseCard";
+import { useLogout } from "@/hooks/authentication";
 import MasterLayout from "@/layouts/master";
 import limitStr from "@/tools/limitStr";
 import { getUserData } from "@/utils/getUserData";
 import { useQuery } from "@tanstack/react-query";
-import { IconInboxEmptyFill, IconLoader, IconSearch } from "justd-icons";
+import {
+  IconInboxEmptyFill,
+  IconLoader,
+  IconLogout,
+  IconPencilBox,
+} from "justd-icons";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 // import Link from "next/link";
 // import React, { useState } from "react";
 
 export default function DashboardPage() {
+  const { logout } = useLogout();
   // const [currentPage, setCurrentPage] = useState(1);
   // const [searchVal, setSearchVal] = useState("");
 
@@ -18,6 +26,7 @@ export default function DashboardPage() {
     id: "",
     name: "",
     email: "",
+    avatar: "",
   });
 
   useEffect(() => {
@@ -26,6 +35,7 @@ export default function DashboardPage() {
       id: data?.id || "0",
       name: data?.name || "",
       email: data?.email || "",
+      avatar: data?.avatar || "",
     });
   }, []);
 
@@ -42,25 +52,36 @@ export default function DashboardPage() {
     <MasterLayout>
       <div className="bg-indigo-500 h-[300px] flex flex-col items-center justify-center mt-16 text-white">
         <h2 className="text-4xl font-medium">Dashboard</h2>
-        <p className="text-gray-100 mt-3">Learning Platform For You</p>
+        {/* <p className="text-gray-100 mt-3">Kelas yang kamu ikuti</p> */}
       </div>
       <section className="grid xl:grid-cols-4 xl:px-20 md:px-10 px-5 mt-10 gap-10">
         <div className="relative">
-          <div className="bg-white rounded shadow-sm p-5 sticky top-24">
-            <div>
-              <p>Search</p>
-              <div className="relative">
-                <input
-                  type="text"
-                  className="w-full py-2 rounded px-3 border bg-gray-50"
-                  placeholder="Search..."
-                  // onChange={(e) => setSearchVal(e.target.value)}
-                />
-                <button className="bg-indigo-500 hover:bg-indigo-400 absolute right-0 top-0 bottom-0 w-[40px] rounded-r flex items-center justify-center text-white">
-                  <IconSearch />
-                </button>
-              </div>
+          <div className="bg-white rounded shadow-sm sticky top-24 text-center overflow-hidden">
+            <div className="p-5">
+              <span className="w-[50px] h-[50px] bg-indigo-500 inline-flex rounded-full mb-3">
+                {userData.avatar ? (
+                  <img src={`/avatars/${userData.avatar}`} />
+                ) : ""}
+              </span>
+              <h3>{userData.name}</h3>
+              <p className="text-sm italic text-gray-800">{userData.email}</p>
             </div>
+            <div className="p-5">
+              <Link
+                href="/profile"
+                className="flex items-center justify-center gap-2 underline italic text-indigo-400"
+              >
+                <IconPencilBox />
+                Edit Profile
+              </Link>
+            </div>
+            <button
+              className="flex justify-center mt-5 bg-red-500 w-full py-3 text-white items-center text-sm gap-2"
+              onClick={logout}
+            >
+              <IconLogout />
+              Logout
+            </button>
           </div>
         </div>
         <div className="xl:col-span-3 grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">

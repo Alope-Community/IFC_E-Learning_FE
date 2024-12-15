@@ -1,3 +1,4 @@
+import { IconChevronLeft, IconChevronRight } from "justd-icons";
 import React from "react";
 
 interface PaginationProps {
@@ -20,7 +21,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
         disabled={currentPage === 1}
         className="px-3 py-1 border rounded disabled:opacity-50"
       >
-        Previous
+        <IconChevronLeft className="size-5" />
       </button>
 
       {pages.map((page) => (
@@ -40,7 +41,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
         disabled={currentPage === totalPages}
         className="px-3 py-1 border rounded disabled:opacity-50"
       >
-        Next
+        <IconChevronRight className="size-5" />
       </button>
     </div>
   );

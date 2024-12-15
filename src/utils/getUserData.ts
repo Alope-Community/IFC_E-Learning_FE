@@ -8,7 +8,7 @@ export const getUserData = () => {
   }
 
   try {
-    const decoded: { id: string; name: string; email: string } =
+    const decoded: { id: string; name: string; email: string, avatar:string } =
       jwtDecode(token);
 
     return decoded;

@@ -7,7 +7,7 @@ import { useAuthRedirect } from "@/hooks/_middlewareAuth";
 import { useRegister } from "@/hooks/authentication";
 import { IRegisterForm, registerValidator } from "@/utils/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconBrandGoogle } from "justd-icons";
+import LoaderComponent from "@/components/Loader";
 
 const RegistrationPage = () => {
   useAuthRedirect();
@@ -47,11 +47,9 @@ const RegistrationPage = () => {
           <div className="flex items-center justify-center">
             <div className="md:w-5/6 w-11/12">
               <div className="mb-10">
-                <h3 className="text-2xl font-semibold">
-                  Registration E-Learning
-                </h3>
+              <h3 className="text-2xl font-semibold">Registrasi EduVerse</h3>
                 <p className="text-gray-600 mt-2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Buat Kuncimu untuk menuju Gerbang dunia pengetahuan.
                 </p>
               </div>
               <form
@@ -169,14 +167,14 @@ const RegistrationPage = () => {
             </div>
           </div>
           <div className="bg-[url(/assets/auth.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
-            <h2 className="text-3xl text-white font-bold">REGISTRASI</h2>
+          <h2 className="text-3xl text-white font-bold">EduVerse</h2>
             <p className="text-gray-200">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Learning Beyond Boundaries
             </p>
           </div>
         </section>
       ) : (
-        "Loading..."
+        <LoaderComponent />
       )}
     </div>
   );

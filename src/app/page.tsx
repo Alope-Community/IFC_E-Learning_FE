@@ -2,7 +2,7 @@
 import { getCategories } from "@/api/Categories";
 import { getCourses } from "@/api/Courses";
 import CourseCard from "@/components/CourseCard";
-import MasterLayout from "@/layouts/master";
+import AppLayout from "@/layouts/app";
 import { Category } from "@/models/Category";
 import { Course } from "@/models/Course";
 import { useQuery } from "@tanstack/react-query";
@@ -12,8 +12,10 @@ import {
   IconInboxEmptyFill,
   IconLoader,
   IconPlayFill,
+  IconX,
 } from "justd-icons";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function ProtectedPage() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -30,9 +32,32 @@ export default function ProtectedPage() {
     queryFn: () => getCategories({ limit: 4 }),
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // Cleanup ketika komponen unmount
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isModalOpen]);
+
   return (
     <>
-      <MasterLayout>
+      <AppLayout>
         <header className="grid xl:grid-cols-2 gap-10 xl:px-20 md:px-10 px-5 items-center mt-24 mb-20">
           <div className="xl:order-1 order-2">
             <h2 className="md:text-3xl text-xl font-semibold md:leading-10">
@@ -50,18 +75,18 @@ export default function ProtectedPage() {
             </p>
             <div className="mt-10 flex md:gap-10 gap-8 items-center">
               <div>
-                <a
-                  href=""
+                <Link
+                  href="/courses"
                   className="bg-indigo-500 hover:bg-indigo-400 md:px-7 px-5 py-3 rounded text-white md:text-base text-sm"
                 >
                   Mulai Kelas
-                </a>
+                </Link>
               </div>
-              <button className="flex gap-2 items-center">
+              <button onClick={openModal} className="flex gap-2 items-center">
                 <span className="md:size-10 size-8 bg-indigo-500 inline-flex items-center justify-center rounded-full text-white">
                   <IconPlayFill className="size-4" />
                 </span>
-                Play Now
+                Tentang E-Course
               </button>
             </div>
           </div>
@@ -110,11 +135,8 @@ export default function ProtectedPage() {
               </span>
               <h3 className="text-3xl font-medium">Pelajaran</h3>
             </div>
-            <p className="mt-3 text-gray-700 text-sm md:w-1/2 mb-5">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-              optio sit, itaque ipsa quaerat quasi quibusdam officia. Architecto
-              cupiditate nam provident quis corrupti dolorem unde sapiente
-              soluta. Veritatis, suscipit laudantium?
+            <p className="mt-3 text-gray-700 md:w-1/2 mb-5">
+              Belajar tanpa batas, bangun keterampilan! Kami menyediakan berbagai materi edukatif, mulai dari teknologi, pemrograman, hingga materi umum lainnya yang mudah dipahami untuk semua kalangan.
             </p>
           </div>
           <div className="xl:col-span-4 md:col-span-2 flex items-center gap-2">
@@ -188,13 +210,10 @@ export default function ProtectedPage() {
           </div>
           <div className="py-20 md:pr-20 xl:col-span-1 md:col-span-2">
             <h3 className="text-3xl font-semibold">
-              WORLD - Class Learning For Anyone, Anywhere
+              Eduverse - Learning Beyond Boundaries
             </h3>
             <p className="text-gray-800 mt-5">
-              menghadirkan akses pendidikan terbaik tanpa batas geografis.
-              Platform ini memadukan inovasi, fleksibilitas, dan kualitas,
-              memungkinkan siapa saja belajar dengan mudah dan nyaman di mana
-              pun.
+              Menghadirkan pengalaman belajar yang luas layaknya semesta, Eduverse dirancang untuk menggabungkan pendidikan berkualitas dengan akses global, menciptakan ruang belajar tanpa batas yang modern dan inklusif.
             </p>
             <div className="my-10">
               <div className="flex items-center gap-5 mb-5">
@@ -202,9 +221,7 @@ export default function ProtectedPage() {
                   1
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Pendidikan tersedia untuk siapa saja tanpa memandang lokasi,
-                  latar belakang, atau batas geografis, mendukung inklusi global
-                  dalam pembelajaran.
+                  Menghapus batasan geografis dan memberikan akses bagi siapa saja untuk menikmati pendidikan berkualitas di mana pun berada.
                 </p>
               </div>
               <div className="flex items-center gap-5 mb-5">
@@ -212,9 +229,7 @@ export default function ProtectedPage() {
                   2
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Materi dan metode pembelajaran yang inovatif dan berstandar
-                  tinggi, dirancang untuk memberikan pengalaman belajar terbaik
-                  bagi semua orang.
+                  Menyediakan berbagai jenis materi pembelajaran, mulai dari pemrograman, ilmu umum, hingga pengembangan keterampilan profesional.
                 </p>
               </div>
               <div className="flex items-center gap-5 mb-5">
@@ -222,22 +237,57 @@ export default function ProtectedPage() {
                   3
                 </span>
                 <p className="w-11/12 text-sm text-gray-800">
-                  Pembelajaran yang dapat dilakukan kapan saja dan di mana saja,
-                  memberikan kebebasan bagi pelajar untuk belajar sesuai
-                  kebutuhan dan jadwal mereka.
+                  Dengan teknologi canggih, Eduverse memberikan fleksibilitas, kenyamanan, dan pengalaman belajar yang interaktif.
+                </p>
+              </div>
+              <div className="flex items-center gap-5 mb-5">
+                <span className="bg-indigo-500 size-10 flex items-center justify-center text-white text-xl rounded-full">
+                  4
+                </span>
+                <p className="w-11/12 text-sm text-gray-800">
+                  Membangun jaringan pembelajar dari seluruh dunia, memungkinkan kolaborasi dan pertukaran ide secara luas.
                 </p>
               </div>
             </div>
-            <a
-              href=""
-              className="bg-indigo-500 hover:bg-indigo-400 md:px-7 px-5 py-3 rounded text-white md:text-base text-sm inline-flex items-center gap-2"
+            <div>
+            <Link
+              href="/courses"
+              className="bg-indigo-500 hover:bg-indigo-400 md:px-5 px-4 py-2 rounded text-white md:text-base text-xs inline-flex items-center gap-2"
             >
-              <IconPlayFill />
-              Mulai Kelas
-            </a>
+              Lihat Semua Kelas
+            </Link>
+            </div>
           </div>
         </section>
-      </MasterLayout>
+      </AppLayout>
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={closeModal}
+        >
+          <div className="bg-white rounded-lg max-w-xl w-full overflow-hidden">
+            <div className="relative pb-56.25">
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/WvmsN2VLUa8?si=Y1AHUlE7yJqyes9p"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+            <button
+              onClick={closeModal}
+              className="absolute top-5 right-5 bg-red-500 hover:bg-red-400 text-white w-[40px] h-[40px] flex items-center justify-center rounded-full"
+            >
+              <IconX />
+            </button>
+          </div>
+        </div>
+      )}
     </>
     // <div>
     //   Welcome to the protected page!{" "}
