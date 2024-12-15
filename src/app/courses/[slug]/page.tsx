@@ -440,8 +440,16 @@ export default function DetailCoursePage({
                     ""
                   )}
 
-                  <hr className="my-5" />
-                  <h3 className="text-xl font-semibold mb-5">Forum Diskusi</h3>
+                  {data.data.forums.length ? (
+                    <>
+                      <hr className="my-5" />
+                      <h3 className="text-xl font-semibold mb-5">
+                        Forum Diskusi
+                      </h3>
+                    </>
+                  ) : (
+                    ""
+                  )}
 
                   {data.data.forums.map((forum: ForumCourse) => (
                     <div className="mb-10" key={forum.id}>

@@ -1,4 +1,5 @@
 import { CourseCardParams } from "@/models/_ComponentParams";
+import limitStr from "@/tools/limitStr";
 import { IconBookOpenFill, IconPeopleFill } from "justd-icons";
 import Link from "next/link";
 import React from "react";
@@ -14,11 +15,11 @@ export default function CourseCard(course: CourseCardParams) {
       <div className="flex justify-between  px-5 py-2 bg-gray-200 items-center gap-2 text-gray-700">
         <div className="flex items-center gap-2">
           <IconPeopleFill />
-          <p className="text-sm">{course.teacher}</p>
+          <p className="text-sm">{limitStr(course.teacher, 10)}</p>
         </div>
         <div className="flex items-center gap-2">
           <IconBookOpenFill />
-          <p className="text-sm">{course.category}</p>
+          <p className="text-sm">{limitStr(course.category, 15)}</p>
         </div>
       </div>
       <div className="p-5">

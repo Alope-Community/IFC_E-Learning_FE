@@ -17,6 +17,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
+      <head>EDUVERSE</head>
       <body className="antialiased bg-gray-50">
         <QueryClientProvider client={queryClient}>
           <Toaster position="top-center" />
