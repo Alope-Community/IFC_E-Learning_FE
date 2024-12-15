@@ -1,4 +1,4 @@
-import { Course, CourseBySlugResponse, CourseResponse } from "@/models/Course";
+import { Course, CourseResponse } from "@/models/Course";
 import API from "./API";
 import { AxiosError } from "axios";
 
@@ -6,6 +6,9 @@ type CourseParams = {
   limit?: number;
   page?: number;
   search?: string;
+  category?: string;
+  categories?: string;
+  sortBy?: string;
 };
 
 export const getCourses = async (
@@ -41,14 +44,17 @@ export const getCourseBySlug = async (slug: string, user_id: number) => {
 export const joinCourse = async ({
   user_id,
   course_id,
+  code
 }: {
   user_id: number;
-  course_id: number;
+  course_id?: number;
+  code?: string;
 }): Promise<Course> => {
   try {
     const response = await API.post(`/join-course`, {
       user_id: user_id,
       course_id: course_id,
+      code: code,
     });
 
     return response.data.result;

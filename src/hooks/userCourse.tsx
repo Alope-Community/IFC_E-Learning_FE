@@ -1,6 +1,5 @@
-import { joinCourse, leaveCourse } from "@/api/Courses";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { joinCourse, leaveCourse } from "@/api/Courses";
 import toast from "react-hot-toast";
 
 const useJoinCourse = () => {
@@ -19,7 +18,7 @@ const useJoinCourse = () => {
     onError: (error) => {
       toast.error(error.message);
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };
@@ -40,7 +39,7 @@ const useLeaveCourse = () => {
     onError: (error) => {
       toast.error("Leave Error");
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };

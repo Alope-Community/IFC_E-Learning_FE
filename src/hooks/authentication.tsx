@@ -19,7 +19,7 @@ const useLogin = () => {
     onError: (error) => {
       toast.error(error.message)
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };
@@ -40,7 +40,7 @@ const useRegister = () => {
     onError: (error) => {
       toast.error(error.message);
 
-      console.error("Error Register item:", error);
+      console.log("Error Register item:", error);
     },
   });
 };

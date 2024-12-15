@@ -23,7 +23,7 @@ const useAuthRedirect = (redirectTo: string = "/") => {
           router.push(redirectTo); // Redirect to the specified page
         }
       } catch (error) {
-        console.error("Invalid token:", error);
+        console.log("Invalid token:", error);
         localStorage.removeItem("token"); // Remove invalid token
       }
     }
@@ -47,14 +47,14 @@ const useAuth = () => {
 
         // Check if token is expired
         if (decoded.exp && decoded.exp < currentTime) {
-          console.error("Token expired");
+          console.log("Token expired");
           localStorage.removeItem("token");
           router.push("/login");
         } else {
           setIsAuthenticated(true);
         }
       } catch (error) {
-        console.error("Invalid token:", error);
+        console.log("Invalid token:", error);
         localStorage.removeItem("token");
         router.push("/login");
       }

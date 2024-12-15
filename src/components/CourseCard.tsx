@@ -7,9 +7,9 @@ export default function CourseCard(course: CourseCardParams) {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1DmLCy9PSJfFqO55mNTYOQLx3x8THsbokkw&s"
+        src={`/assets/courses/bg${(course.id % 9) + 1}.svg`}
         alt="Course"
-        className="w-full"
+        className="w-full max-h-[200px] min-h-[200px  ] object-cover"
       />
       <div className="flex justify-between  px-5 py-2 bg-gray-200 items-center gap-2 text-gray-700">
         <div className="flex items-center gap-2">

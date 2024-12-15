@@ -2,9 +2,17 @@ import API from "./API";
 import { AxiosError } from "axios";
 import { Category, CategoryResponse } from "@/models/Category";
 
-export const getCategories = async (): Promise<Category[]> => {
+type CategoryParams = {
+  limit?: number;
+};
+
+export const getCategories = async (
+  params?: CategoryParams
+): Promise<Category[]> => {
   try {
-    const response = await API.get<CategoryResponse>("/categories");
+    const response = await API.get<CategoryResponse>("/categories", {
+      params,
+    });
 
     return response.data.result;
   } catch (error) {
