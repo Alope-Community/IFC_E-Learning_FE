@@ -21,6 +21,7 @@ export interface Course {
   updated_at: string;
   category: CourseCategory;
   user: CourseUser;
+  forums: ForumCourse[];
 }
 
 export interface CourseCategory {
@@ -41,4 +42,23 @@ export interface CourseUser {
   created_at?: string;
   updated_at?: string;
   otp?: string;
+}
+
+export interface ForumCourse {
+  id: number;
+  course_id: number;
+  title: string;
+  created_at: string;
+  updated_at: string;
+  discussions: ForumDiscussion[];
+}
+
+export interface ForumDiscussion {
+  id: number;
+  forum_id: number;
+  user_id: number;
+  user: CourseUser;
+  message: string;
+  created_at: string;
+  updated_at: string;
 }

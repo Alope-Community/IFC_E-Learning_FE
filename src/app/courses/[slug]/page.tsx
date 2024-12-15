@@ -1,18 +1,21 @@
 "use client";
 
 import { getCourseBySlug } from "@/api/Courses";
+import sendDiscussion from "@/api/Discussion";
 import { getSubmitSubmission } from "@/api/SubmitSubmission";
 import LoaderComponent from "@/components/Loader";
 import Modal from "@/components/Modal";
+import useSendDiscussion from "@/hooks/discussion";
 import useSubmitSubmission from "@/hooks/submitSubmission";
 import { useJoinCourse, useLeaveCourse } from "@/hooks/userCourse";
 import MasterLayout from "@/layouts/master";
+import { ForumCourse, ForumDiscussion } from "@/models/Course";
 import { Submission } from "@/models/Submission";
 import { SubmitSubmission } from "@/models/SubmitSubmission";
 import formatDate from "@/tools/dateFormatter";
 import timestampFormatter from "@/tools/timestampFormatter";
 import { getUserId } from "@/utils/getUserId";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   IconBookOpenFill,
   IconCalendarFill,
@@ -117,6 +120,10 @@ export default function DetailCoursePage({
     }));
   };
 
+  const [comment, setComment] = useState<string>("");
+
+  const mutation = useSendDiscussion();
+
   const handleSubmitSubmission = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -175,6 +182,28 @@ export default function DetailCoursePage({
         (item2: SubmitSubmission) => item1.submission_id === item2.id
       )
   );
+
+  const handleSendComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+
+    const forumId = (form.elements.namedItem("forum_id") as HTMLInputElement)
+      ?.value;
+
+    if (comment.trim() === "") {
+      alert("Komentar tidak boleh kosong.");
+      return;
+    }
+
+    setComment("");
+
+    mutation.mutate({
+      forum_id: parseInt(forumId),
+      body: comment,
+      user_id: userId || 0,
+    });
+  };
 
   return (
     <MasterLayout>
@@ -401,7 +430,6 @@ export default function DetailCoursePage({
                                     </>
                                   )}
                                 </form>
-                                <hr className="my-10" />
                               </div>
                             )
                           )
@@ -411,6 +439,80 @@ export default function DetailCoursePage({
                   ) : (
                     ""
                   )}
+
+                  <hr className="my-5" />
+                  <h3 className="text-xl font-semibold mb-5">Forum Diskusi</h3>
+
+                  {data.data.forums.map((forum: ForumCourse) => (
+                    <div className="mb-10" key={forum.id}>
+                      <div className="bg-gray-100 mb-5 p-5 rounded border">
+                        <small>Pembahasan</small>
+                        <p className="text-xl font-medium mb-5">
+                          {forum.title}
+                        </p>
+                        {forum?.discussions.map(
+                          (discussion: ForumDiscussion) => (
+                            <div className="mb-12" key={discussion.id}>
+                              <div className="mb-7">
+                                <div className="flex gap-2 items-center">
+                                  <span className="block w-[30px] h-[30px] bg-indigo-500 rounded-full">
+                                    {discussion.user.profile ? (
+                                      <img
+                                        src={`http://127.0.0.1:8000/storage/profile/${discussion.user.profile}`}
+                                        alt="profile"
+                                        className="w-full h-full object-cover rounded-full"
+                                      />
+                                    ) : (
+                                      ""
+                                    )}
+                                  </span>
+                                  <p className="font-medium">
+                                    {discussion.user.name}
+                                  </p>
+                                </div>
+                                <p className="mt-2">{discussion.message}</p>
+                              </div>
+                            </div>
+                          )
+                        )}
+                      </div>
+                      <form onSubmit={handleSendComment} className="rounded-lg">
+                        <input
+                          type="text"
+                          defaultValue={forum.id}
+                          name="forum_id"
+                          hidden
+                        />
+                        <label
+                          htmlFor="comment"
+                          className="block font-medium text-gray-700 mb-2"
+                        >
+                          Tulis Komentar Anda di forum {forum.title}
+                        </label>
+                        <textarea
+                          id="comment"
+                          name="comment"
+                          placeholder="Tulis sesuatu di sini..."
+                          className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          required
+                          onChange={(e) => {
+                            setComment(e.target.value);
+                          }}
+                          value={comment}
+                          defaultValue={comment}
+                        ></textarea>
+                        <button
+                          type="submit"
+                          className="mt-4 w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          onClick={() => {
+                            return confirm("yakin ingin kirim diskusi?");
+                          }}
+                        >
+                          Kirim Komentar
+                        </button>
+                      </form>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className="xl:px-20 md:px-10 px-5 mt-5">
