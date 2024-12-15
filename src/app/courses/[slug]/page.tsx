@@ -74,7 +74,7 @@ export default function DetailCoursePage({
       });
       setOpenModal(false);
     } catch (error) {
-      console.error(error); // Tangani error jika ada
+      console.log(error); // Tangani error jika ada
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ export default function DetailCoursePage({
       });
       setOpenModal(false);
     } catch (error) {
-      console.error(error); // Tangani error jika ada
+      console.log(error); // Tangani error jika ada
     } finally {
       setIsLoading(false);
     }

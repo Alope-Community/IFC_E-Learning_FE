@@ -83,7 +83,7 @@ export default function ProtectedPage() {
                 </Link>
               </div>
               <button onClick={openModal} className="flex gap-2 items-center">
-                <span className="md:size-10 size-7 bg-gradient-to-tr from-indigo-500 to-purple-500 inline-flex items-center justify-center rounded-full text-white md:text-base text-sm">
+                <span className="md:size-10 size-7 bg-purple-500 inline-flex items-center justify-center rounded-full text-white md:text-base text-sm">
                   <IconPlayFill className="size-4" />
                 </span>
                 Tentang EduVerse

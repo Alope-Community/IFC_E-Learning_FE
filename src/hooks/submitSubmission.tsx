@@ -11,7 +11,7 @@ const useSubmitSubmission = () => {
       queryClient.invalidateQueries({ queryKey: ["submit-submission"] });
     },
     onError: (error) => {
-      console.error("Error upload image:", error);
+      console.log("Error upload image:", error);
     },
   });
 };

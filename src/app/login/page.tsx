@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { ILoginForm, loginValidator } from "@/utils/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoaderComponent from "@/components/Loader";
+import { IconHome1Fill } from "justd-icons";
 
 const LoginPage = () => {
   useAuthRedirect();
@@ -38,7 +39,7 @@ const LoginPage = () => {
     try {
       await mutation.mutateAsync(data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       setIsloading(false);
     }
@@ -52,11 +53,18 @@ const LoginPage = () => {
     <div>
       {clientOnly ? (
         <section className="min-h-screen grid xl:grid-cols-2">
-          <div className="bg-[url(/assets/auth.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
+          <div className="bg-[url(/assets/1.jpg)] bg-cover bg-center relative z-10 xl:flex hidden flex-col items-center justify-center after:content-[''] after:absolute after:inset-0 after:bg-black/50 after:-z-10">
             <h2 className="text-3xl text-white font-bold">EduVerse</h2>
             <p className="text-gray-200">Learning Beyond Boundaries</p>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center relative">
+            <Link
+              href={"/"}
+              className="absolute top-5 left-5 bg-gray-200 hover:bg-gray-100 px-4 py-2 rounded inline-flex items-center gap-2"
+            >
+              <IconHome1Fill />
+              Beranda
+            </Link>
             <div className="md:w-2/3 w-11/12">
               <div className="mb-10">
                 <h3 className="text-2xl font-semibold">Login EduVerse</h3>
@@ -116,7 +124,7 @@ const LoginPage = () => {
                 <div>
                   <button
                     type="submit"
-                    className="bg-indigo-500 hover:bg-indigo-400 w-full py-3 text-white rounded-md"
+                    className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:bg-gradient-to-l w-full py-3 text-white rounded-md"
                   >
                     Masuk
                   </button>

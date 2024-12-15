@@ -87,7 +87,7 @@ export default function CoursePage() {
       setClassCode("");
       setIsModalOpen(false);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       setIsloading(false);
     }

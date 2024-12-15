@@ -11,7 +11,7 @@ const useUpdateProfile = () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
-      console.error("Error upload image:", error);
+      console.log("Error upload image:", error);
     },
   });
 };

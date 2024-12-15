@@ -18,7 +18,7 @@ const useJoinCourse = () => {
     onError: (error) => {
       toast.error(error.message);
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };
@@ -39,7 +39,7 @@ const useLeaveCourse = () => {
     onError: (error) => {
       toast.error("Leave Error");
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };

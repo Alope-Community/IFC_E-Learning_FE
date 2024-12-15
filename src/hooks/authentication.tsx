@@ -12,14 +12,14 @@ const useLogin = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["login"] });
 
-      toast.success('Login Success!', { position: 'top-right' })
+      toast.success("Login Success!", { position: "top-right" });
 
       router.push("/");
     },
     onError: (error) => {
-      toast.error(error.message, {position: 'top-right'})
+      toast.error(error.message, { position: "top-right" });
 
-      console.error("Error Login item:", error);
+      console.log("Error Login item:", error);
     },
   });
 };
@@ -40,7 +40,7 @@ const useRegister = () => {
     onError: (error) => {
       toast.error(error.message);
 
-      console.error("Error Register item:", error);
+      console.log("Error Register item:", error);
     },
   });
 };
